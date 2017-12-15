@@ -1,0 +1,21 @@
+{
+        "title": "HANGMAN",
+        "majorVersion": 1,
+        "minorVersion": 0,
+        "patchVersion": 0,
+        "runnable": 1,
+        "machineName": "H5P.HangMan",
+        "author": "H5P-SPACE",
+        "license": "MIT",
+        "embedTypes": ["iframe"],
+        "preloadedCss": [
+                {
+                          "path": "styles/h5p-HangMan.css"
+                }
+        ],
+        "preloadedJs": [
+                {
+                        "path": "js/h5p-HangMan.js"
+                }
+        ]
+}

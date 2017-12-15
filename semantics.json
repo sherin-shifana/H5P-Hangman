@@ -1,0 +1,14 @@
+[
+  {
+    "label": "word",
+    "name": "text",
+    "type": "text",
+    "description": "Guess the word."
+  },
+  {
+    "label": "hint",
+    "name": "hint",
+    "type": "text",
+    "description":"Hint!"
+  }
+]
