@@ -1,7 +1,7 @@
 {
         "title": "HANGMAN",
         "majorVersion": 1,
-        "minorVersion": 0,
+        "minorVersion": 1,
         "patchVersion": 0,
         "runnable": 1,
         "machineName": "H5P.HangMan",
@@ -10,12 +10,22 @@
         "embedTypes": ["iframe"],
         "preloadedCss": [
                 {
-                          "path": "styles/h5p-HangMan.css"
+                          "path": "styles/h5p-hangMan.css"
                 }
         ],
         "preloadedJs": [
                 {
-                        "path": "js/h5p-HangMan.js"
+                        "path": "js/h5p-hangMan.js"
                 }
-        ]
+
+       ],
+       "preloadedDependencies":[
+                {
+      "machineName":"H5P.JoubelUI",
+      "majorVersion":1,
+      "minorVersion":3
+                }
+
+    ]
+
 }

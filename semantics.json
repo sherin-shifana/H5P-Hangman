@@ -1,14 +1,56 @@
 [
   {
-    "label": "word",
-    "name": "text",
-    "type": "text",
-    "description": "Guess the word."
-  },
-  {
-    "label": "hint",
-    "name": "hint",
-    "type": "text",
-    "description":"Hint!"
-  }
-]
+  "name": "hang",
+  "type": "list",
+  "label":"CategorySelection",
+  "importance": "high",
+  "entity": "word",
+  "min": 1,
+  "defaultNum": 2,
+  "field": {
+
+    "name": "hang",
+    "type": "group",
+    "isSubContent": true,
+    "label": "Category",
+    "importance": "high",
+    "min":1,
+    "max":4,
+    "fields":[
+             {
+        "name": "Category",
+        "type": "text",
+        "label": "Enter Category",
+        "importance": "high"
+             },
+             {
+      "name": "hang",
+      "type": "group",
+      "isSubContent": true,
+      "label": "TextAndHints",
+      "importance": "high",
+        "fields":[
+        {
+          "name": "EnterWord",
+          "type": "text",
+          "label": "Enter Word",
+          "importance": "high"
+        },
+        {
+          "label": "HintImage",
+          "name": "image",
+          "type": "image",
+          "description": "Image to be displayed as hint is added here..."
+        },
+        {
+          "label": "HintText",
+          "name": "hintText",
+          "type": "text",
+          "description": "INPUT THE HINT HERE..."
+        }
+           ]
+           }
+   ]
+ }
+ }
+ ]
