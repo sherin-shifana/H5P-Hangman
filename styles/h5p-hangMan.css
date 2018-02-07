@@ -2,3 +2,18 @@
     margin-left: 200px;
 }
 */
+/*.td-class{
+margin-top: 60px;
+ }*/
+ .sequencing-status {} .sequencing-status > dt {
+     margin: 0 1em 0 0;
+     font-weight: bold;
+
+ }
+ /*.sequencing-status > dt:after {
+     content: ":";
+ }*/
+ .sequencing-status > dd {
+     margin: 0;
+     padding: 5px 0;
+   }

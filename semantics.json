@@ -1,33 +1,31 @@
 [
   {
-  "name": "hang",
+  "name": "CategorySelectionList",
   "type": "list",
-  "label":"CategorySelection",
+  "label":"CategoryList",
   "importance": "high",
-  "entity": "word",
+  "entity": "Category",
   "min": 1,
-  "defaultNum": 2,
   "field": {
-
-    "name": "hang",
+    "name": "CategorySelectionGroup",
     "type": "group",
     "isSubContent": true,
     "label": "Category",
     "importance": "high",
-    "min":1,
-    "max":4,
     "fields":[
              {
-        "name": "Category",
+        "name": "CategoryText",
         "type": "text",
         "label": "Enter Category",
         "importance": "high"
              },
              {
-      "name": "hang",
+      "name": "WordHintGroup",
       "type": "group",
       "isSubContent": true,
-      "label": "TextAndHints",
+      "label": "Text and Hints",
+      "entity": "Word",
+      "min": 1,
       "importance": "high",
         "fields":[
         {
