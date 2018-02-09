@@ -1,4 +1,4 @@
-(function(HangMan, Timer) {
+(function(HangMan,Timer) {
 
   /**
    * Adapter between image sequencing and H5P.Timer
@@ -45,4 +45,4 @@
   HangMan.Timer.prototype = Object.create(Timer.prototype);
   HangMan.Timer.prototype.constructor = HangMan.Timer;
 
-})(H5P.HangMan, H5P.Timer);
+})(H5P.HangMan,H5P.Timer);

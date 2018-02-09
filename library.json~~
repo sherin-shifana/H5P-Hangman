@@ -1,7 +1,11 @@
 {
         "title": "HANGMAN",
         "majorVersion": 1,
-        "minorVersion": 4,
+<<<<<<< HEAD
+        "minorVersion": 3,
+=======
+        "minorVersion": 2,
+>>>>>>> 9ecea5d3de5128eb422a46ddcc125180e75663f5
         "patchVersion": 0,
         "runnable": 1,
         "machineName": "H5P.HangMan",
