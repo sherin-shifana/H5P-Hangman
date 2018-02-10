@@ -1,6 +1,6 @@
 H5P.HangMan=(function($,UI){
   var self = this;
-var livesChoosen;
+  var livesChoosen;
   function HangMan(options,id) {
 
     self.options = options;
@@ -8,40 +8,29 @@ var livesChoosen;
     self.id = id;
 
       StartGame = function($container,livesChoosen){
-    console.log(livesChoosen);
-      console.log("working2");
+        console.log(livesChoosen);//value of livesChoosen passed to the function StartGame after clicking play button
+        console.log("working2");
       $container.empty();
-          var $DivTop = $('<div class="top-div"> </div>');
-          StartTimer =function(){
+
+        var $DivTop = $('<div class="top-div"> </div>');
+        StartTimer =function(){
             console.log("StartTimer");
-            self.$status =  $('<dl class="sequencing-status">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">0:00</dd>' +
+            self.$status =  $('<dl clas="sequencing-status">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">0:00</dd>' +
             '<dt>' + '</dt>' + '</dl>');
             self.$status.appendTo($container);
             self.timer = new HangMan.Timer(self.$status.find('.h5p-time-spent')[0]); //Initialize timer
               //after clicking play
             self.timer.play();
-          }
-        $container.append($DivTop);
+          } 
+      $container.append($DivTop);
+
+
       StartTimer();
     }
-
-    // changeLevels =function(livesChoosen){
-    //   console.log("work");
-    // }
   };
+
+
 HangMan.prototype.attach = function($container){
-      self.$Play = UI.createButton({
-               title: 'Play',
-               'class': 'h5p-hangMan-xPlay',
-               'text':'Play',
-              click:function(event){
-                    // $container.empty();
-                    StartGame($container,livesChoosen);
-                    // self.timer.play();
-                    //StartTimer();
-                    //  GameStart();
-                   }
-      });
       var i=0;
       $container.append('<h1>HANGMAN GAME</h1>');
       var $optionContainer=$('<table /> <tr />');
@@ -52,31 +41,42 @@ HangMan.prototype.attach = function($container){
         '<option value="5">5 Lives</option><option value="4">4 Lives</option>'+
         '</select></td>';
 
-        var lives = document.getElementById('select-lives');
-        $(lives).change(function(){
-              var  livesChoosen=lives.value;
-                 console.log(livesChoosen);
-                 //changeLevels(livesChoosen);
-              });
 
+      //$container.append(lives);
       $optionContainer.append($chooseLevel);
       $container.append($optionContainer);
 
-
+      var lives = document.getElementById('select-lives');
+      $(lives).change(function(){
+          livesChoosen = lives.value;
+          console.log(livesChoosen);
+        });
       var $Category=[];
       var $tdContainer = $('<td style="padding-right:500px; />');
       var $selectContainer = $('<select  />');
       $selectContainer.append('<option>Choose Category:</option>');
-      for(i=0;i<self.options.CategorySelectionList.length;i++)
-          {
+      for(i=0;i<self.options.CategorySelectionList.length;i++){
             var $chooseCategory='<option value="'+ self.options.CategorySelectionList[i].CategoryText +'">'
                                 +self.options.CategorySelectionList[i].CategoryText+'</option>';
-      $selectContainer.append($chooseCategory);
-       }
-                $tdContainer.append($selectContainer);
-                $optionContainer.append($selectContainer);
-                $container.append($optionContainer);
-                $container.append('<br/><br/><br/><br/><br/><br/><br/>');
+            $selectContainer.append($chooseCategory);
+             }
+      $tdContainer.append($selectContainer);
+      $optionContainer.append($selectContainer);
+      $container.append($optionContainer);
+      $container.append('<br/><br/><br/><br/><br/><br/><br/>');
+
+      self.$Play = UI.createButton({
+                         title: 'Play',
+                         'class': 'h5p-hangMan-xPlay',
+                         'text':'Play',
+                        click:function(event){
+                              StartGame($container,livesChoosen);
+                              // self.timer.play();
+                              //StartTimer();
+                              //  GameStart();
+                             }
+                });
+
                 $container.append(self.$Play);
 
                 // var lives = document.getElementById('select-lives');
