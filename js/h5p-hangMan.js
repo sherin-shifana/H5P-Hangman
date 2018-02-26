@@ -1,6 +1,9 @@
 H5P.HangMan=(function($,UI){
   var self = this;
   var livesChoosen;
+  var alphabet = [];
+  var i;
+  var guesses = [];
   function HangMan(options,id) {
 
     self.options = options;
@@ -15,17 +18,58 @@ H5P.HangMan=(function($,UI){
         var $DivTop = $('<div class="top-div"> </div>');
         StartTimer =function(){
             console.log("StartTimer");
-            self.$status =  $('<dl clas="sequencing-status">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">0:00</dd>' +
-            '<dt>' + '</dt>' + '</dl>');
+            self.$status =  $('<span>'+'<dl class="sequencing-status" style="display: inline-block;">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">00:00:00</dd>' +
+            '<dt>' + '</dt>' + '</dl>'+'<span class = "top-div-left"> Lives Left:</span>'+'</span>');
             self.$status.appendTo($container);
             self.timer = new HangMan.Timer(self.$status.find('.h5p-time-spent')[0]); //Initialize timer
               //after clicking play
             self.timer.play();
-          } 
+          }
       $container.append($DivTop);
-
-
       StartTimer();
+    //  $DivTop.append('<span class = "top-div-left" style="padding-left:550px;"> Lives Left:</span>');
+    var $gameContainer = $('<div class= "game-container">').appendTo($container);
+      var $DivLeft = $('<div class="div-left"><p>Free software or libre software[1][2] is computer software distributed under terms that allow users to run the software for any purpose as well as to study, change, and distribute it and any adapted versions.</p> </div>');
+
+
+            var $blankSpace = $('<div></div>').appendTo($DivLeft);
+            console.log(self.options.CategorySelectionList[0].WordHintGroup.EnterWord);
+            var word = self.options.CategorySelectionList[0].WordHintGroup.EnterWord;
+            for(i=0;i<word.length;i++){
+              var  guess = document.createElement('li');
+              guess.setAttribute('class', 'guess');
+              if (word[i] === " ") {
+                  guess.innerHTML = " ";
+                  space = 1;
+                } else {
+                  guess.innerHTML = "_";
+                }
+              // guess.innerHTML = "_";
+              guesses.push(guess);
+
+            }
+            $blankSpace.append(guesses);
+
+
+
+             alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's','t', 'u', 'v', 'w', 'x', 'y', 'z'];
+             for ( i = 0; i < alphabet.length; i++) {
+
+             var $letter = $('<button class="div-alpha">'+ alphabet[i] +'</button>').appendTo($DivLeft);
+             var demo = alphabet[i];
+             $letter.click(function(){
+
+                $(this).attr("disabled", true);
+                console.log(demo);
+              });
+
+            }
+      $gameContainer.append($DivLeft);
+      var $DivRight = $('<div class="div-right" style= "border: solid 1px red;height:300px;width:20%;"> </div>');
+      $gameContainer.append($DivRight);
+
+
+
     }
   };
 
