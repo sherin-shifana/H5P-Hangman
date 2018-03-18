@@ -20,6 +20,13 @@
         "importance": "high"
              },
              {
+               "name": "CategoryWordList",
+               "type": "list",
+               "label":"WordList",
+               "importance": "high",
+               "entity": "AddWord",
+               "min": 1,
+               "field": {
       "name": "WordHintGroup",
       "type": "group",
       "isSubContent": true,
@@ -48,6 +55,7 @@
         }
            ]
            }
+         }
    ]
  }
 }

@@ -5,6 +5,10 @@
 /*.td-class{
 margin-top: 60px;
  }*/
+  /*.display-image {
+   width: 100%;
+   height: auto;
+ }*/
  .sequencing-status {} .sequencing-status > dt {
      margin: 0 1em 0 0;
      font-weight: bold;
@@ -28,8 +32,8 @@ margin-top: 60px;
      /*padding-left:400px;*/
      border: 1px solid blue;
      border-radius: 5px;
-     width: 150px;
-     height: 50px;
+     width: 80px;
+
    }
    .div-alpha{
      display: inline-block;
@@ -62,14 +66,27 @@ margin-top: 60px;
          color:$base-color;
        }
    }
+
    .div-left{
      display:inline-block;
-     width: 65%;
+     width: 25%;
      height: auto;
    }
-   .div-right{
+   /*.div-right{
       display:inline-block;
-    }
+    }*/
+    .flex-rectangle{
+    width: 25%;
+    height: 25%;
+    background: #ca0164;
+    display:inline-block;
+}
+.flex-rectangle:before{
+    content: "";
+    display: block;
+    /*padding-top: 25%;*/
+    display:inline-block;
+}
 
     .guess{
       position: relative;

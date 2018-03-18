@@ -11,14 +11,20 @@ H5P.HangMan=(function($,UI){
     self.id = id;
 
       StartGame = function($container,livesChoosen){
-        console.log(livesChoosen);//value of livesChoosen passed to the function StartGame after clicking play button
+
+        console.log(arguments[1]);
+        var temp;
+        temp = arguments[1].value;
+        //console.log(temp);
+        //value of livesChoosen passed to the function StartGame after clicking play button
+        //var LiveDemo = this.innerHTML;
         console.log("working2");
-      $container.empty();
+        $container.empty();
 
         var $DivTop = $('<div class="top-div"> </div>');
         StartTimer =function(){
             console.log("StartTimer");
-            self.$status =  $('<span>'+'<dl class="sequencing-status" style="display: inline-block;">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">00:00:00</dd>' +
+            self.$status = $('<span>'+'<dl class="sequencing-status" style="display: inline-block;">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">00:00:00</dd>' +
             '<dt>' + '</dt>' + '</dl>'+'<span class = "top-div-left"> Lives Left:</span>'+'</span>');
             self.$status.appendTo($container);
             self.timer = new HangMan.Timer(self.$status.find('.h5p-time-spent')[0]); //Initialize timer
@@ -29,19 +35,19 @@ H5P.HangMan=(function($,UI){
       StartTimer();
     //  $DivTop.append('<span class = "top-div-left" style="padding-left:550px;"> Lives Left:</span>');
     var $gameContainer = $('<div class= "game-container">').appendTo($container);
-      var $DivLeft = $('<div class="div-left"><p>Free software or libre software[1][2] is computer software distributed under terms that allow users to run the software for any purpose as well as to study, change, and distribute it and any adapted versions.</p> </div>');
-
+    var $DivLeft = $('<div class="div-left"><p>Click the buttons below to guess the word</p> </div>').appendTo($gameContainer);
 
             var $blankSpace = $('<div></div>').appendTo($DivLeft);
-            console.log(self.options.CategorySelectionList[0].WordHintGroup.EnterWord);
-            var word = self.options.CategorySelectionList[0].WordHintGroup.EnterWord;
+            console.log(self.options.CategorySelectionList[0].CategoryWordList[0].hintText);
+            var word = self.options.CategorySelectionList[0].CategoryWordList[0].EnterWord;
             for(i=0;i<word.length;i++){
               var  guess = document.createElement('li');
               guess.setAttribute('class', 'guess');
               if (word[i] === " ") {
                   guess.innerHTML = " ";
                   space = 1;
-                } else {
+                }
+              else {
                   guess.innerHTML = "_";
                 }
               // guess.innerHTML = "_";
@@ -56,24 +62,38 @@ H5P.HangMan=(function($,UI){
              for ( i = 0; i < alphabet.length; i++) {
 
              var $letter = $('<button class="div-alpha">'+ alphabet[i] +'</button>').appendTo($DivLeft);
-             var demo = alphabet[i];
              $letter.click(function(){
-
                 $(this).attr("disabled", true);
-                console.log(demo);
+                console.log(this.innerHTML);
               });
 
             }
-      $gameContainer.append($DivLeft);
-      var $DivRight = $('<div class="div-right" style= "border: solid 1px red;height:300px;width:20%;"> </div>');
-      $gameContainer.append($DivRight);
 
+      $gameContainer.append($DivLeft);
+
+      var $DivRight = $('<div class="flex-rectangle"> </div>');
+
+      // self.$Hint = UI.createButton({
+      //                    title: 'Hint',
+      //                    'class': 'h5p-hangMan-hint',
+      //                    'text':'Hint',
+      //                   click:function(event){
+      //                         //StartGame($container,livesChoosen);
+      //                         // self.timer.play();
+      //                         //StartTimer();
+      //                         //  GameStart();
+      //                         var $hintWord = $('<div>'+self.options.CategorySelectionList[0].CategoryWordList[0].hintText+'</div>').appendTo($DivLeft);
+      //
+      //                        }
+      //           });
+      //           $$DivRight.append(self.$Hint);
+                $gameContainer.append($DivRight);
 
 
     }
   };
-
-
+//
+//
 HangMan.prototype.attach = function($container){
       var i=0;
       $container.append('<h1>HANGMAN GAME</h1>');
@@ -103,6 +123,8 @@ HangMan.prototype.attach = function($container){
             var $chooseCategory='<option value="'+ self.options.CategorySelectionList[i].CategoryText +'">'
                                 +self.options.CategorySelectionList[i].CategoryText+'</option>';
             $selectContainer.append($chooseCategory);
+            var word = self.options.CategorySelectionList[i].CategoryWordList[i].EnterWord;
+            console.log(self.options.CategorySelectionList[i].CategoryWordList[i].EnterWord);
              }
       $tdContainer.append($selectContainer);
       $optionContainer.append($selectContainer);
@@ -120,7 +142,6 @@ HangMan.prototype.attach = function($container){
                               //  GameStart();
                              }
                 });
-
                 $container.append(self.$Play);
 
                 // var lives = document.getElementById('select-lives');
@@ -131,7 +152,9 @@ HangMan.prototype.attach = function($container){
 
       //console.log(self.options.CategorySelectionList[1].CategoryText);
       console.log(self.options.CategorySelectionList.length);
-      console.log(self.options.CategorySelectionList[0].CategoryText);
+      console.log(self.options.CategorySelectionList[0].CategoryWordList[0].EnterWord);
+      console.log(self.options.CategorySelectionList[1].CategoryWordList[1].EnterWord);
+  //  $container.append('<img class= "display-image" src="' + H5P.getPath(self.options.CategorySelectionList[0].WordHintGroup.image, self.id) + '">');
       H5P.trigger('resize');
 }
 return HangMan;
