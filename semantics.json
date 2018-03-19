@@ -43,7 +43,7 @@
         },
         {
           "label": "HintImage",
-          "name": "image",
+          "name": "HintImage",
           "type": "image",
           "description": "Image to be displayed as hint is added here..."
         },

@@ -69,24 +69,27 @@ margin-top: 60px;
 
    .div-left{
      display:inline-block;
-     width: 25%;
+     width: 45%;
      height: auto;
    }
-   /*.div-right{
+   .div-right{
       display:inline-block;
-    }*/
-    .flex-rectangle{
+      border: solid 1px red;
+      height: 15em;
+      width:25%;
+    }
+    /*.flex-rectangle{
     width: 25%;
-    height: 25%;
+    height: inherit;
     background: #ca0164;
     display:inline-block;
-}
-.flex-rectangle:before{
+  }*/
+  /*.flex-rectangle:before{
     content: "";
     display: block;
-    /*padding-top: 25%;*/
+    padding-top: 25%;
     display:inline-block;
-}
+    }*/
 
     .guess{
       position: relative;
