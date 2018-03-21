@@ -15,8 +15,8 @@ H5P.HangMan=(function($,UI){
 
         console.log(arguments[1]);
         var temp;
-        temp = arguments[1];
-        console.log(livesChoosen);
+        temp = arguments[1].value;
+        //console.log(temp);
         //value of livesChoosen passed to the function StartGame after clicking play button
         //var LiveDemo = this.innerHTML;
 
@@ -26,7 +26,7 @@ H5P.HangMan=(function($,UI){
         StartTimer =function(){
             console.log("StartTimer");
             self.$status = $('<span>'+'<dl class="sequencing-status" style="display: inline-block;">' + '<dt>'  + '</dt>' + '<dd class="h5p-time-spent">00:00:00</dd>' +
-            '<dt>' + '</dt>' + '</dl>'+'<span class = "top-div-left"> Lives Left:</span>'+'</span>');
+            '<dt>' + '</dt>' + '</dl>'+'<span class = "top-div-left" id="lives-left"> Lives Left:'+livesChoosen+'</span>');
             self.$status.appendTo($container);
             self.timer = new HangMan.Timer(self.$status.find('.h5p-time-spent')[0]); //Initialize timer
               //after clicking play
@@ -41,11 +41,13 @@ H5P.HangMan=(function($,UI){
       var $blankSpace = $('<div></div>').appendTo($DivLeft);
 
       // console.log(categoryChoosen.CategoryWordList[0].hintText);
+      var wordList=[];
       for(i=0;i<self.options.CategorySelectionList[categoryChoosen].CategoryWordList.length;i++){
-      var word = self.options.CategorySelectionList[categoryChoosen].CategoryWordList[i].EnterWord;
-      console.log(word);
-      Math.random(word);
+      wordList.push( self.options.CategorySelectionList[categoryChoosen].CategoryWordList[i].EnterWord);
     }
+
+    var word= wordList[Math.floor(Math.random()*wordList.length)];
+    console.log(word);
 
 
             for(i=0;i<word.length;i++){
@@ -66,6 +68,82 @@ H5P.HangMan=(function($,UI){
             }
             $blankSpace.append(guesses);
 
+            var showLives=document.getElementById("lives-left");
+            comments = function () {
+             showLives.innerHTML = "Lives Left: " + livesChoosen ;
+             if (livesChoosen < 1) {
+               showLives.innerHTML = "Lives Left: " + 0 ;
+             }
+           }
+           var animate = function () {
+             var drawMe = livesChoosen ;
+             drawArray[drawMe]();
+           }
+
+           canvas =  function(){
+
+             myStickman = document.getElementById("div-right");
+             context = myStickman.getContext('2d');
+             context.beginPath();
+             context.strokeStyle = "#fff";
+             context.lineWidth = 2;
+           };
+
+             head = function(){
+               myStickman = document.getElementById("div-right");
+               context = myStickman.getContext('2d');
+               context.beginPath();
+               context.arc(60, 25, 10, 0, Math.PI*2, true);
+               context.stroke();
+             }
+
+           draw = function($pathFromx, $pathFromy, $pathTox, $pathToy) {
+             myStickman = document.getElementById("div-right");
+             context = myStickman.getContext('2d');
+             context.moveTo($pathFromx, $pathFromy);
+             context.lineTo($pathTox, $pathToy);
+             context.stroke();
+         }
+
+            frame1 = function() {
+              draw (0, 150, 150, 150);
+            };
+
+            frame2 = function() {
+              draw (10, 0, 10, 600);
+            };
+
+            frame3 = function() {
+              draw (0, 5, 70, 5);
+            };
+
+            frame4 = function() {
+              draw (60, 5, 60, 15);
+            };
+
+            torso = function() {
+              draw (60, 36, 60, 70);
+            };
+
+            rightArm = function() {
+              draw (60, 46, 100, 50);
+            };
+
+            leftArm = function() {
+              draw (60, 46, 20, 50);
+            };
+
+            rightLeg = function() {
+              draw (60, 70, 100, 100);
+            };
+
+            leftLeg = function() {
+              draw (60, 70, 20, 100);
+            };
+
+           drawArray = [rightLeg, leftLeg, rightArm, leftArm,  torso,  head, frame4, frame3, frame2, frame1];
+
+
 
 
       alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's','t', 'u', 'v', 'w', 'x', 'y', 'z'];
@@ -75,18 +153,46 @@ H5P.HangMan=(function($,UI){
 
       $letter.click(function(){
             $(this).attr("disabled", true);
+            var flag=0;
             for(i=0;i<word.length;i++){
                 if(word[i]===this.innerHTML){
                   guesses[i].innerHTML=this.innerHTML;
-
+                  flag=1;
                 }
-            }
 
+              }
+              if(flag!==1){
+                livesChoosen -= 1;
+
+                      comments();
+                      animate();
+                      if(livesChoosen===0){
+                        $container.empty();
+                        var $failed = $("<p>0 Lives Left!!!</br>The Game Is Over :( </p>").appendTo($container);
+                        gameOver();
+
+                      }
+              }
 
       });
+          var gameOver=function(){
+            self.$Retry = UI.createButton({
+                               title: 'Retry',
+                               'text':'Retry',
+                              click:function(event){
+                                    // StartGame($container,livesChoosen,categoryChoosen);
+                                    $container.empty();
+                                    HangMan.prototype.attach($container);
+
+                                   }
+                      });
+                      $container.append(self.$Retry);
+          }
       }
+
+
       $gameContainer.append($DivLeft);
-      var $DivRight = $('<div class="div-right"> </div>');
+      var $DivRight = $('<canvas id="div-right"></canvas>');
       $gameContainer.append($DivRight);
       var $DivBottom = $('<div class="div-bottom" style = "padding-top:25px;"> </div>').appendTo($gameContainer);
       self.$Hint = UI.createButton({
@@ -102,8 +208,8 @@ H5P.HangMan=(function($,UI){
                              }
                 });
       $DivBottom.append(self.$Hint);
-      }
-    };
+    }
+  };
 
 
 HangMan.prototype.attach = function($container){
@@ -113,8 +219,8 @@ HangMan.prototype.attach = function($container){
       var $chooseLevel='<td style="padding-right:50px;"><select id="select-lives">'+
         '<option value="10">Difficulty Levels:</option>'+
         '<option value="10">10 Lives</option>'+
-        '<option value="8">8 Lives</option>'+
-        '<option value="5">5 Lives</option><option value="4">4 Lives</option>'+
+        '<option value="9">9 Lives</option>'+
+        '<option value="8">8 Lives</option><option value="7">7 Lives</option>'+
         '</select></td>';
 
 
@@ -157,27 +263,15 @@ HangMan.prototype.attach = function($container){
                          'text':'Play',
                         click:function(event){
                               StartGame($container,livesChoosen,categoryChoosen);
-                              // self.timer.play();
-                              //StartTimer();
-                              //  GameStart();
+
                              }
                 });
                 $container.append(self.$Play);
 
-                // var lives = document.getElementById('select-lives');
-                // $(lives).change(function(){
-                //          livesNum=lives.value;
-                //          console.log(livesNum);
-                //       });
 
-                 //console.log(self.options.CategorySelectionList[1].CategoryText);
-                 // console.log(self.options.CategorySelectionList.length);
-                 // console.log(self.options.CategorySelectionList[0].CategoryWordList[0].EnterWord);
-                 // console.log(self.options.CategorySelectionList[1].CategoryWordList[1].EnterWord);
-                 //  $container.append('<img class= "display-image" src="' + H5P.getPath(self.options.CategorySelectionList[0].WordHintGroup.image, self.id) + '">');
-                H5P.trigger('resize');
-      }
-    return HangMan;
+      H5P.trigger('resize');
+}
+return HangMan;
 
 
-  })(H5P.jQuery, H5P.JoubelUI);
+})(H5P.jQuery, H5P.JoubelUI);

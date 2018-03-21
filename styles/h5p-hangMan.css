@@ -1,22 +1,9 @@
-/*.h5p-hangMan-Play.h5p-joubelui-button {
-    margin-left: 200px;
-}
-*/
-/*.td-class{
-margin-top: 60px;
- }*/
-  /*.display-image {
-   width: 100%;
-   height: auto;
- }*/
  .sequencing-status {} .sequencing-status > dt {
      margin: 0 1em 0 0;
      font-weight: bold;
 
  }
- /*.sequencing-status > dt:after {
-     content: ":";
- }*/
+
  .sequencing-status > dd {
      margin: 0;
      display: inline-block;
@@ -72,24 +59,14 @@ margin-top: 60px;
      width: 45%;
      height: auto;
    }
-   .div-right{
+   #div-right{
       display:inline-block;
       border: solid 1px red;
-      height: 15em;
+      height: 16em;
       width:25%;
+      border-radius: 3px;
+      text-align: center;
     }
-    /*.flex-rectangle{
-    width: 25%;
-    height: inherit;
-    background: #ca0164;
-    display:inline-block;
-  }*/
-  /*.flex-rectangle:before{
-    content: "";
-    display: block;
-    padding-top: 25%;
-    display:inline-block;
-    }*/
 
     .guess{
       position: relative;
@@ -98,19 +75,5 @@ margin-top: 60px;
       display: inline-block;
       padding: 0 10px;
       font-size:1.6em;
-    }
-    /*#my-word {
-      margin: 0;
-      display: block;
-      padding: 0;
-      display:block;
-    }
-
-    #my-word li {
-      position: relative;
-      list-style: none;
-      margin: 0;
-      display: inline-block;
-      padding: 0 10px;
-      font-size:1.6em;
-    }*/
+}
+  
