@@ -1,62 +1,62 @@
 [
-  {
-  "name": "CategorySelectionList",
-  "type": "list",
-  "label":"CategoryList",
-  "importance": "high",
-  "entity": "Category",
-  "min": 1,
-  "field": {
-    "name": "CategorySelectionGroup",
-    "type": "group",
-    "isSubContent": true,
-    "label": "Category",
-    "importance": "high",
-    "fields":[
-             {
-        "name": "CategoryText",
-        "type": "text",
-        "label": "Enter Category",
-        "importance": "high"
-             },
-             {
-               "name": "CategoryWordList",
-               "type": "list",
+   {
+      "name":"CategorySelectionList",
+      "type":"list",
+      "label":"CategoryList",
+      "importance":"high",
+      "entity":"Category",
+      "min":1,
+      "field":{
+         "name":"CategorySelectionGroup",
+         "type":"group",
+         "isSubContent":true,
+         "label":"Category",
+         "importance":"high",
+         "fields":[
+            {
+               "name":"CategoryText",
+               "type":"text",
+               "label":"Enter Category",
+               "importance":"high"
+            },
+            {
+               "name":"CategoryWordList",
+               "type":"list",
                "label":"WordList",
-               "importance": "high",
-               "entity": "AddWord",
-               "min": 1,
-               "field": {
-      "name": "WordHintGroup",
-      "type": "group",
-      "isSubContent": true,
-      "label": "Text and Hints",
-      "entity": "Word",
-      "min": 1,
-      "importance": "high",
-        "fields":[
-        {
-          "name": "EnterWord",
-          "type": "text",
-          "label": "Enter Word",
-          "importance": "high"
-        },
-        {
-          "label": "HintImage",
-          "name": "HintImage",
-          "type": "image",
-          "description": "Image to be displayed as hint is added here..."
-        },
-        {
-          "label": "HintText",
-          "name": "hintText",
-          "type": "text",
-          "description": "INPUT THE HINT HERE..."
-        }
-           ]
-           }
-         }
-   ]
- }
-}
+               "importance":"high",
+               "entity":"Word",
+               "min":1,
+               "field":{
+                  "name":"WordHintGroup",
+                  "type":"group",
+                  "isSubContent":true,
+                  "label":"Text and Hints",
+                  "entity":"Word",
+                  "min":1,
+                  "importance":"high",
+                  "fields":[
+                     {
+                        "name":"EnterWord",
+                        "type":"text",
+                        "label":"Enter Word",
+                        "importance":"high"
+                     },
+                     {
+                        "label":"HintImage",
+                        "name":"HintImage",
+                        "type":"image",
+                        "description":"Image to be displayed as hint is added here..."
+                     },
+                     {
+                        "label":"HintText",
+                        "name":"hintText",
+                        "type":"text",
+                        "description":"INPUT THE HINT HERE..."
+                     }
+                  ]
+               }
+            }
+         ]
+      }
+   }
 ]
