@@ -1,39 +1,58 @@
 {
         "title": "HANGMAN",
         "majorVersion": 1,
-        "minorVersion": 4,
-        "patchVersion": 0,
+        "minorVersion": 3,
+        "patchVersion": 1,
         "runnable": 1,
-        "machineName": "H5P.HangMan",
+        "machineName": "H5P.Hangman",
         "author": "H5P-SPACE",
         "license": "MIT",
         "embedTypes": ["iframe"],
         "preloadedCss": [
                 {
-                          "path": "styles/h5p-hangMan.css"
+                          "path": "styles/h5p-hangman.css"
                 }
         ],
         "preloadedJs": [
                 {
-                        "path": "js/h5p-hangMan.js"
+                        "path": "js/h5p-hangman.js"
                 },
                 {
-                    "path":"js/h5p-hangMan-Timer.js"
+                        "path": "js/h5p-hangman-timer.js"
+                },
+                {
+                        "path": "js/popup.js"
                 }
-
        ],
        "preloadedDependencies":[
-                {
-                    "machineName":"H5P.Timer",
-                    "majorVersion":0,
-                    "minorVersion":4
-              },
                 {
                     "machineName":"H5P.JoubelUI",
                     "majorVersion":1,
                     "minorVersion":3
+                },
+                {
+                    "machineName":"H5P.Timer",
+                    "majorVersion":0,
+                    "minorVersion":4
+                },
+                {
+                      "machineName": "H5P.Question",
+                      "majorVersion": 1,
+                      "minorVersion": 4
                 }
 
-    ]
+    ],
+    "editorDependencies": [
+    {
+      "machineName": "H5PEditor.RangeList",
+      "majorVersion": 1,
+      "minorVersion": 0
+    },
+    {
+      "machineName": "H5PEditor.RadioGroup",
+      "majorVersion": 1,
+      "minorVersion": 1
+    }
+   ]
 
 }
