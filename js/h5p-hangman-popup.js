@@ -31,7 +31,6 @@
      * Show the popup.
      *
      * @param {string} hint
-     * @param {H5P.jQuery[]} imgs
      * @param {function} done
      */
     that.show = function (hint) {
@@ -60,11 +59,6 @@
      * @param {number} fontSize
      */
     that.setSize = function () {
-      // // Set image size
-      // $top[0].style.fontSize = fontSize + 'px';
-      //
-      // // Determine card size
-      // let cardSize = fontSize * 6.25; // From CSS
 
       // Set popup size
       $popup[0].style.minWidth = (10) + 'em';
