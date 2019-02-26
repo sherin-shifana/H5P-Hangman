@@ -1,15 +1,11 @@
-/*hangman container*/
+
+
 .h5p-hangman {
   font-family: sans-serif;
   margin: 0 auto;
   background-image: url(../images/background.jpg);
   background-size: 0 0;
-  /* padding: 0 5% 0 5%; */
   text-align: center;
-}
-
-.hangman-container {
-  max-width: 100%;
 }
 
 .hangman-wrapper {
@@ -27,41 +23,24 @@
 
 .hangman-wrapper>.select-container>select.category {
   display: inline;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      text-indent: 1px;
-      text-overflow: '';
-      border: 1px solid #006bb3;
-      color: white;
-      border-radius: .2em;
-      background: #006bb3;
-      padding: .4em .5em .4em .5em;
-      margin-bottom: 10px;
-      background-image:
-        linear-gradient(50deg, transparent 55%, white 55%), linear-gradient(130deg, white 50%, transparent 55%), linear-gradient(to right, #006bb3, #006bb3);
-
-      background-position:
-        calc(100% - 20px) calc(1em + 2px),
-        calc(100% - 15px) calc(1em + 2px),
-        100% 0;
-      background-size:
-        5px 5px,
-        5px 5px,
-        2.5em 2.5em;
-      background-repeat: no-repeat;
-      width: 8em;
-
-}
-.hangman-wrapper>.select-container>select.category>.arrow-left {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-
-  border-bottom: 5px solid black;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+  border: 1px solid #006bb3;
+  color: white;
+  border-radius: .2em;
+  background: #006bb3;
+  padding: .4em .5em .4em .5em;
+  margin-bottom: 10px;
+  background-image: linear-gradient(50deg, transparent 55%, white 55%), linear-gradient(130deg, white 50%, transparent 55%), linear-gradient(to right, #006bb3, #006bb3);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
+  background-repeat: no-repeat;
+  width: 8em;
 }
 
-.hangman-wrapper>.select-container>select.category > option {
+option {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -78,33 +57,24 @@
   padding: .4em .5em .4em .5em;
   display: inline-block;
   margin-left: 8em;
-  background-image:
-    linear-gradient(50deg, transparent 55%, white 55%), linear-gradient(130deg, white 50%, transparent 55%), linear-gradient(to right, #006bb3, #006bb3);
-  background-position:
-    calc(100% - 20px) calc(1em + 2px),
-    calc(100% - 15px) calc(1em + 2px),
-    100% 0;
-  background-size:
-    5px 5px,
-    5px 5px,
-    2.5em 2.5em;
+  background-image: linear-gradient(50deg, transparent 55%, white 55%), linear-gradient(130deg, white 50%, transparent 55%), linear-gradient(to right, #006bb3, #006bb3);
+  background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px), 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
   background-repeat: no-repeat;
   width: 8em;
-  /* font-size: 11px; */
 }
 
-.hangman-wrapper>.select-container>.level:focus, .hangman-wrapper>.select-container>select.category:focus
-{
-  background-image:linear-gradient(45deg, white 55%, transparent 50%),linear-gradient(135deg, transparent 50%, white 55%),linear-gradient(to right, #006bb3, #006bb3);
-  background-position:calc(100% - 15px) 1em,calc(100% - 20px) 1em,100% 0;
-  background-size:  5px 5px,  5px 5px,  2.5em 2.5em;
+.hangman-wrapper>.select-container>.level:focus,
+.hangman-wrapper>.select-container>select.category:focus {
+  background-image: linear-gradient(45deg, white 55%, transparent 50%), linear-gradient(135deg, transparent 50%, white 55%), linear-gradient(to right, #006bb3, #006bb3);
+  background-position: calc(100% - 15px) 1em, calc(100% - 20px) 1em, 100% 0;
+  background-size: 5px 5px, 5px 5px, 2.5em 2.5em;
   background-repeat: no-repeat;
   border-color: #006bb3;
   outline: 0;
 }
 
 .hangman-wrapper>.start-button {
-  /* margin-top: 5em; */
   position: absolute;
   margin-top: 22%;
   margin-left: -30%;
@@ -113,6 +83,7 @@
 .h5p-hangman-wrapper {
   margin-bottom: 3%;
 }
+
 .h5p-hangman-wrapper>.top-div {
   margin-top: 3%;
 }
@@ -180,6 +151,15 @@
   outline: none;
 }
 
+.h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
+  margin: auto;
+  height: 18em;
+  width: 18em;
+  padding: .5em;
+  border: 1px solid grey;
+  border-radius: 5px;
+}
+
 .h5p-hangman-wrapper>.foot-container {
   display: flex;
   padding-left: 22%;
@@ -205,15 +185,6 @@
   color: black;
 }
 
-.h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
-  margin: auto;
-  height: 18em;
-  width: 18em;
-  padding: .5em;
-  border: 1px solid grey;
-  border-radius: 5px;
-}
-
 .h5p-hangman-wrapper>.foot-container>.h5p-button-container {
   padding: 1em 1em 1em;
 }
@@ -227,7 +198,7 @@
   border-radius: .5em;
 }
 
-.game-over-page{
+.game-over-page {
   background-image: url(../images/gameover.jpg);
   background-repeat: no-repeat;
   background-position: top;
@@ -236,7 +207,8 @@
   height: 560px;
 }
 
-.game-over-page>.h5p-result-div, .game-win-page>.h5p-result-div{
+.game-over-page>.h5p-result-div,
+.game-win-page>.h5p-result-div {
   margin-left: 51%;
   padding: 0.5em;
   border: 1px solid lightgray;
@@ -244,12 +216,15 @@
   width: 20%;
   border-radius: 10px;
 }
-.game-over-page>.h5p-result-div>.total-time-spent>span{
+
+.game-over-page>.h5p-result-div>.total-time-spent>span {
   margin-left: 5em;
 }
-.game-over-page>.h5p-result-div>.total-attempts-made>span{
+
+.game-over-page>.h5p-result-div>.total-attempts-made>span {
   margin-left: 7em;
 }
+
 .game-win-page {
   background-image: url(../images/gamewin.jpg);
   background-repeat: no-repeat;
@@ -259,23 +234,22 @@
   height: 560px;
 }
 
-
-.game-win-page>.h5p-result-div>.total-time-spent>span{
+.game-win-page>.h5p-result-div>.total-time-spent>span {
   margin-left: 5em;
 }
-.game-win-page>.h5p-result-div>.total-attempts-made>span{
+
+.game-win-page>.h5p-result-div>.total-attempts-made>span {
   margin-left: 7em;
 }
-.game-win-page > .play-again-button,.game-over-page > .play-again-button  {
-    margin-top: 2%;
-    margin-left: 25%;
-    border-radius: .5em;
-    /* padding: em; */s
-    width: 11%;
-    /* padding: 1%; */
-    font-size: 1.1em;
-}
 
+.game-win-page>.play-again-button,
+.game-over-page>.play-again-button {
+  margin-top: 2%;
+  margin-left: 25%;
+  border-radius: .5em;
+  width: 11%;
+  font-size: 1.1em;
+}
 
 .h5p-hangman-close {
   cursor: pointer;
@@ -288,6 +262,7 @@
   text-align: center;
   color: #888;
 }
+
 .h5p-hangman-pop {
   display: none;
   background: #fff;
@@ -300,338 +275,339 @@
   left: 50%;
   box-shadow: 5px 10px 8px 10px #888888;
   border-radius: 0.25em;
-  -webkit-transform: translate(-50%,-50%);
-  -moz-transform: translate(-50%,-50%);
-  transform: translate(-50%,-50%);
-}
-.h5p-hangman-shadow {
-  background:  	#909090;
-}
-.h5p-hangman-hint  {
-  outline: none;
-text-align: center;
-padding-top: 4em;
-color: steelblue;
-font-weight: bold;
-font-size: 2em;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
+.h5p-hangman-shadow {
+  background: #909090;
+}
+
+.h5p-hangman-hint {
+  outline: none;
+  text-align: center;
+  padding-top: 4em;
+  color: steelblue;
+  font-weight: bold;
+  font-size: 2em;
+}
 
 @media only screen and (min-width:576px) {
-  .h5p-hangman,.hangman-wrapper, .game-win-page, .game-over-page{
+  .h5p-hangman,
+  .hangman-wrapper,
+  .game-win-page,
+  .game-over-page {
     height: 269px;
     font-size: 0.8em;
   }
-  .hangman-wrapper > .start-button {
+  .hangman-wrapper>.start-button {
     margin-top: 22%;
     margin-left: -36%;
     font-weight: bold;
     border-radius: .5em;
     font-size: 1.3em;
   }
-  .hangman-wrapper > .select-container {
+  .hangman-wrapper>.select-container {
     margin-top: -32%;
     margin-left: 38%;
   }
-
- .hangman-wrapper > .select-container > .category {
+  .hangman-wrapper>.select-container>.category {
     font-size: 1.3em;
   }
-
-  .hangman-wrapper > .select-container > .level {
+  .hangman-wrapper>.select-container>.level {
     margin-left: 4em;
     font-size: 1.3em;
   }
-  .h5p-hangman-wrapper > .top-div > .h5p-status > .h5p-time-spent {
+  .h5p-hangman-wrapper>.top-div>.h5p-status>.h5p-time-spent {
     margin-right: 49%;
   }
-  .h5p-hangman-wrapper > .game-container {
+  .h5p-hangman-wrapper>.game-container {
     padding: 1% 1% 0 1%;
   }
-  .h5p-hangman-wrapper > .game-container > .left-game-container {
+  .h5p-hangman-wrapper>.game-container>.left-game-container {
     width: 65%;
     padding: 0;
   }
-  .h5p-hangman-wrapper > .game-container > .left-game-container > p {
+  .h5p-hangman-wrapper>.game-container>.left-game-container>p {
     display: none;
   }
-  .h5p-hangman-wrapper > .game-container > .left-game-container > .alphabet-container {
+  .h5p-hangman-wrapper>.game-container>.left-game-container>.alphabet-container {
     margin-top: 5%;
   }
-  .h5p-hangman-wrapper > .game-container > .right-game-container {
+  .h5p-hangman-wrapper>.game-container>.right-game-container {
     padding: 0;
   }
-  .h5p-hangman-wrapper > .game-container > .right-game-container > .h5p-draw-hangman > canvas {
+  .h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
     height: 10em;
     width: 10em;
   }
-  .h5p-hangman-wrapper > .foot-container {
+  .h5p-hangman-wrapper>.foot-container {
     padding-left: 13%;
   }
-  .h5p-hangman-wrapper > .foot-container > .guess-container {
-    margin-right: 28%;
+  .h5p-hangman-hint {
+    padding-top: 3em;
+    font-size: 1.5em;
   }
-  .h5p-hangman-wrapper > .foot-container > .guess-container > p {
+  .h5p-hangman-pop {
+    width: 28em;
+    height: 10em;
+  }
+  .h5p-hangman-wrapper>.foot-container>.guess-container {
+    margin-right: 18%;
+  }
+  .h5p-hangman-wrapper>.foot-container>.guess-container>p {
     margin: 0;
   }
-  .game-win-page,.game-over-page {
+  .game-win-page,
+  .game-over-page {
     background-size: 35em;
   }
-  .game-win-page > .h5p-result-div,.game-over-page > .h5p-result-div {
+  .game-win-page>.h5p-result-div,
+  .game-over-page>.h5p-result-div {
     margin-left: 48%;
     width: 30%;
-
   }
-  .game-win-page > .h5p-result-div >.total-time-spent>span,.game-over-page > .h5p-result-div>.total-time-spent>span{
+  .game-win-page>.h5p-result-div>.total-time-spent>span,
+  .game-over-page>.h5p-result-div>.total-time-spent>span {
     margin-left: 3em;
   }
-  .game-win-page > .h5p-result-div >.total-attempts-made>span , .game-over-page > .h5p-result-div>.total-attempts-made>span{
+  .game-win-page>.h5p-result-div>.total-attempts-made>span,
+  .game-over-page>.h5p-result-div>.total-attempts-made>span {
     margin-left: 4em;
   }
-  .game-win-page > .h5p-result-div >.total-time-spent,
-  .game-win-page > .h5p-result-div >.total-attempts-made,
-  .game-over-page > .h5p-result-div>.total-time-spent,
-  .game-over-page > .h5p-result-div>.total-attempts-made {
+  .game-win-page>.h5p-result-div>.total-time-spent,
+  .game-win-page>.h5p-result-div>.total-attempts-made,
+  .game-over-page>.h5p-result-div>.total-time-spent,
+  .game-over-page>.h5p-result-div>.total-attempts-made {
     margin: 0;
   }
 }
 
-
-
 @media only screen and (min-width:768px) {
-  .hangman-wrapper, .h5p-hangman, .game-win-page, .game-over-page{
-      height: 359px;
-      /* font-size: unset; */
-      font-size: 0.9em;
+  .hangman-wrapper,
+  .h5p-hangman,
+  .game-win-page,
+  .game-over-page {
+    height: 359px;
+    font-size: 0.9em;
   }
-  .hangman-wrapper > .select-container {
+  .hangman-wrapper>.select-container {
     margin-top: -32%;
     margin-left: 41%;
   }
-  .hangman-wrapper > .select-container > .category{
+  .hangman-wrapper>.select-container>.category {
     font-size: unset;
     font-weight: unset;
     margin-left: unset;
   }
-  .hangman-wrapper > .select-container > .level{
+  .hangman-wrapper>.select-container>.level {
     font-size: unset;
     font-weight: unset;
     margin-left: 8em;
   }
-  .hangman-wrapper > .start-button {
+  .hangman-wrapper>.start-button {
     font-size: unset;
     font-weight: unset;
     margin-top: 25%;
     margin-left: -33%;
   }
   .h5p-hangman-wrapper>.game-container>.left-game-container {
-    /* margin-top: 0%; */
     padding-top: 0%;
   }
-  .h5p-hangman-wrapper > .game-container > .left-game-container > p {
-    display:contents;
+  .h5p-hangman-wrapper>.game-container>.left-game-container>p {
+    display: contents;
     text-align: left;
   }
-  .h5p-hangman-wrapper > .foot-container {
+  .h5p-hangman-wrapper>.foot-container {
     padding-left: 13%;
   }
-  .h5p-hangman-wrapper > .foot-container > .guess-container {
+  .h5p-hangman-wrapper>.foot-container>.guess-container {
     margin-right: 25%;
+  }
+  .h5p-hangman-hint {
+    padding-top: 3em;
+    font-size: 2em;
+  }
+  .h5p-hangman-pop {
+    width: 33em;
+    height: 14em;
   }
   .h5p-hangman-wrapper>.game-container>.right-game-container {
     padding: 0 5% 0 5%;
   }
-  .h5p-hangman-wrapper>.game-container>.right-game-container> .h5p-draw-hangman >canvas {
+  .h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
     height: 15em;
     width: 15em;
   }
-  .game-win-page, .game-over-page {
+  .game-win-page,
+  .game-over-page {
     background-size: 40em;
   }
-  .game-win-page > .h5p-result-div,.game-over-page > .h5p-result-div {
+  .game-win-page>.h5p-result-div,
+  .game-over-page>.h5p-result-div {
     width: 30%;
-
   }
-  .game-win-page > .h5p-result-div >.total-time-spent>span,.game-over-page > .h5p-result-div>.total-time-spent>span{
+  .game-win-page>.h5p-result-div>.total-time-spent>span,
+  .game-over-page>.h5p-result-div>.total-time-spent>span {
     margin-left: 3em;
   }
-  .game-win-page > .h5p-result-div >.total-attempts-made>span , .game-over-page > .h5p-result-div>.total-attempts-made>span{
+  .game-win-page>.h5p-result-div>.total-attempts-made>span,
+  .game-over-page>.h5p-result-div>.total-attempts-made>span {
     margin-left: 5em;
   }
-  .game-win-page > .h5p-result-div >.total-time-spent,
-  .game-win-page > .h5p-result-div >.total-attempts-made,
-  .game-over-page > .h5p-result-div>.total-time-spent,
-  .game-over-page > .h5p-result-div>.total-attempts-made {
+  .game-win-page>.h5p-result-div>.total-time-spent,
+  .game-win-page>.h5p-result-div>.total-attempts-made,
+  .game-over-page>.h5p-result-div>.total-time-spent,
+  .game-over-page>.h5p-result-div>.total-attempts-made {
     margin: 0;
   }
 }
 
-
-
 @media only screen and (min-width:992px) {
-  .hangman-wrapper, .h5p-hangman, .game-win-page, .game-over-page{
+  .hangman-wrapper,
+  .h5p-hangman,
+  .game-win-page,
+  .game-over-page {
     height: 463px;
     font-size: unset;
   }
   .h5p-hangman-wrapper {
     margin-bottom: 3%;
   }
-
-  .hangman-wrapper > .select-container {
+  .hangman-wrapper>.select-container {
     margin-top: -32%;
     margin-left: 43%;
   }
-  .hangman-wrapper > .start-button {
-      margin-top: 25%;
-      margin-left: -30%;
+  .hangman-wrapper>.start-button {
+    margin-top: 25%;
+    margin-left: -30%;
   }
-
   .h5p-hangman-wrapper>.top-div {
     margin-top: 3%;
   }
-
   .h5p-hangman-wrapper>.top-div>.h5p-status>.h5p-time-spent {
     margin-right: 42%;
   }
-
   .h5p-hangman-wrapper>.game-container {
     padding: 2%;
   }
-
   .h5p-hangman-wrapper>.game-container>.left-game-container {
     width: 43%;
     padding: 2% 0% 0% 6%;
   }
-
-  .h5p-hangman-wrapper > .foot-container {
+  .h5p-hangman-wrapper>.foot-container {
     padding-left: 20%;
   }
-
-  .h5p-hangman-wrapper > .foot-container > .guess-container {
+  .h5p-hangman-wrapper>.foot-container>.guess-container {
     margin-right: 20%;
   }
-
-  .game-win-page, .game-over-page {
+  .game-win-page,
+  .game-over-page {
     background-size: 45em;
   }
-  .game-win-page > .h5p-result-div,.game-over-page > .h5p-result-div {
+  .game-win-page>.h5p-result-div,
+  .game-over-page>.h5p-result-div {
     width: 30%;
-
   }
-  .game-win-page > .h5p-result-div >.total-time-spent>span,.game-over-page > .h5p-result-div>.total-time-spent>span{
+  .game-win-page>.h5p-result-div>.total-time-spent>span,
+  .game-over-page>.h5p-result-div>.total-time-spent>span {
     margin-left: 3em;
   }
-  .game-win-page > .h5p-result-div >.total-attempts-made>span , .game-over-page > .h5p-result-div>.total-attempts-made>span{
+  .game-win-page>.h5p-result-div>.total-attempts-made>span,
+  .game-over-page>.h5p-result-div>.total-attempts-made>span {
     margin-left: 5em;
   }
-  .game-win-page > .h5p-result-div >.total-time-spent,
-  .game-win-page > .h5p-result-div >.total-attempts-made,
-  .game-over-page > .h5p-result-div>.total-time-spent,
-  .game-over-page > .h5p-result-div>.total-attempts-made {
+  .game-win-page>.h5p-result-div>.total-time-spent,
+  .game-win-page>.h5p-result-div>.total-attempts-made,
+  .game-over-page>.h5p-result-div>.total-time-spent,
+  .game-over-page>.h5p-result-div>.total-attempts-made {
     margin: 0.5em;
   }
-  /* .hangman-wrapper > .start-button {
-
-    margin-top: 28%;
-    margin-left: -32%;
-  } */
 }
 
-
-
-
 @media only screen and (min-width:1200px) {
-    .hangman-wrapper,.h5p-hangman, .game-win-page, .game-over-page{
-      height: 560px;
-    }
-    .hangman-wrapper > .select-container {
-      margin-top: -30%;
-    }
-
-    .hangman-wrapper > .start-button {
-        margin-top: 22%;
-        margin-left: -29%;
-    }
-
-    .h5p-hangman-wrapper {
-      margin-bottom: 3%;
-    }
-    .h5p-hangman-wrapper>.top-div {
-      margin-top: 3%;
-    }
-
-    .h5p-hangman-wrapper>.top-div>.h5p-status>.h5p-time-spent {
-      margin-right: 42%;
-    }
-
-    .h5p-hangman-wrapper>.game-container {
-      padding: 2%;
-    }
-
-    .h5p-hangman-wrapper>.game-container>.left-game-container {
-      width: 40%;
-      padding: 3% 0 0 10%;
-    }
-
-    .h5p-hangman-wrapper>.game-container>.left-game-container>p {
-      text-align: left;
-      margin-left: 5%
-    }
-
-    .h5p-hangman-wrapper>.game-container>.right-game-container {
-      padding: 0 10% 0 0;
-    }
-
-    .h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
-      height: 18em;
-      width: 18em;
-    }
-
-    .h5p-hangman-wrapper>.foot-container {
-      padding-left: 22%;
-    }
-
-    .h5p-hangman-wrapper > .foot-container > .guess-container {
-      margin-right: 25%;
-    }
-
-    .game-over-page, .game-win-page{
-      background-size: 50em;
-    }
-
-    .game-over-page>.h5p-result-div, .game-win-page>.h5p-result-div{
-      margin-left: 51%;
-      padding: 0.5em;
-      margin-top: 12%;
-      width: 20%;
-    }
-    .game-over-page>.h5p-result-div>.total-time-spent>span{
-      margin-left: 5em;
-    }
-    .game-over-page>.h5p-result-div>.total-attempts-made>span{
-      margin-left: 7em;
-    }
-
-    .game-win-page>.h5p-result-div>.total-time-spent>span{
-      margin-left: 5em;
-    }
-    .game-win-page>.h5p-result-div>.total-attempts-made>span{
-      margin-left: 7em;
-    }
-    .game-win-page > .play-again-button,.game-over-page > .play-again-button  {
-        margin-top: 2%;
-        margin-left: 25%;
-        border-radius: .5em;
-        /* padding: em; */s
-        width: 11%;
-        /* padding: 1%; */
-        font-size: 1.1em;
-    }
-
-    .game-win-page > .h5p-result-div >.total-time-spent,
-    .game-win-page > .h5p-result-div >.total-attempts-made,
-    .game-over-page > .h5p-result-div>.total-time-spent,
-    .game-over-page > .h5p-result-div>.total-attempts-made {
-      margin: .5em;
-    }
+  .hangman-wrapper,
+  .h5p-hangman,
+  .game-win-page,
+  .game-over-page {
+    height: 560px;
+  }
+  .hangman-wrapper>.select-container {
+    margin-top: -30%;
+  }
+  .hangman-wrapper>.start-button {
+    margin-top: 22%;
+    margin-left: -29%;
+  }
+  .h5p-hangman-wrapper {
+    margin-bottom: 3%;
+  }
+  .h5p-hangman-wrapper>.top-div {
+    margin-top: 3%;
+  }
+  .h5p-hangman-wrapper>.top-div>.h5p-status>.h5p-time-spent {
+    margin-right: 42%;
+  }
+  .h5p-hangman-wrapper>.game-container {
+    padding: 2%;
+  }
+  .h5p-hangman-wrapper>.game-container>.left-game-container {
+    width: 40%;
+    padding: 3% 0 0 10%;
+  }
+  .h5p-hangman-wrapper>.game-container>.left-game-container>p {
+    text-align: left;
+    margin-left: 5%
+  }
+  .h5p-hangman-wrapper>.game-container>.right-game-container {
+    padding: 0 10% 0 0;
+  }
+  .h5p-hangman-wrapper>.game-container>.right-game-container>.h5p-draw-hangman>canvas {
+    height: 18em;
+    width: 18em;
+  }
+  .h5p-hangman-wrapper>.foot-container {
+    padding-left: 22%;
+  }
+  .h5p-hangman-wrapper>.foot-container>.guess-container {
+    margin-right: 25%;
+  }
+  .game-over-page,
+  .game-win-page {
+    background-size: 50em;
+  }
+  .game-over-page>.h5p-result-div,
+  .game-win-page>.h5p-result-div {
+    margin-left: 51%;
+    padding: 0.5em;
+    margin-top: 12%;
+    width: 20%;
+  }
+  .game-over-page>.h5p-result-div>.total-time-spent>span {
+    margin-left: 5em;
+  }
+  .game-over-page>.h5p-result-div>.total-attempts-made>span {
+    margin-left: 7em;
+  }
+  .game-win-page>.h5p-result-div>.total-time-spent>span {
+    margin-left: 5em;
+  }
+  .game-win-page>.h5p-result-div>.total-attempts-made>span {
+    margin-left: 7em;
+  }
+  .game-win-page>.play-again-button,
+  .game-over-page>.play-again-button {
+    margin-top: 2%;
+    margin-left: 25%;
+    border-radius: .5em;
+    width: 11%;
+    font-size: 1.1em;
+  }
+  .game-win-page>.h5p-result-div>.total-time-spent,
+  .game-win-page>.h5p-result-div>.total-attempts-made,
+  .game-over-page>.h5p-result-div>.total-time-spent,
+  .game-over-page>.h5p-result-div>.total-attempts-made {
+    margin: .5em;
+  }
 }

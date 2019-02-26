@@ -1,6 +1,14 @@
 H5P.Hangman = (function ($, UI, EventDispatcher) {
 
 
+/**
+ * Hangman Constructor
+ *
+ * @class H5P.Hangman
+ * @extends H5P.EventDispatcher
+ * @param {Object} options
+ * @param {Number} id
+ */
   function Hangman(options, id) {
     let that = this;
     EventDispatcher.call(self);
@@ -13,32 +21,34 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.MIN_IMAGE_HEIGHT = 400;
   }
 
-  // Game starts
+  /**
+   * Game starts
+   */
   Hangman.prototype.startGame = function ($container) {
     let that = this;
     $container.empty();
 
     // Create DOM elements
-    let $wrapper = $('<div class="h5p-hangman-wrapper"></div>');
-    let $topDiv = $('<div class = "top-div"></div>');
-    let $gameContainer = $('<div class = "game-container"></div>');
-    let $leftGameContainer = $('<div class = "left-game-container"></div>');
-    let $rightGameContainer = $('<div class = "right-game-container"></div>');
-    let $drawHangman = $('<div class = "h5p-draw-hangman" id="draw"></div>');
-    let $canvasDiv = $('<canvas name ="canvas" id="canvas"></canvas>');
-    let $footContainer = $('<div class = "foot-container"></div>');
-    let $buttonContainer = $('<div class = "h5p-button-container"></div>');
-    let $guessesContainer = $('<div class = "guess-container"></div>');
+    const $wrapper = $('<div class="h5p-hangman-wrapper"></div>');
+    const $topDiv = $('<div class = "top-div"></div>');
+    const $gameContainer = $('<div class = "game-container"></div>');
+    const $leftGameContainer = $('<div class = "left-game-container"></div>');
+    const $rightGameContainer = $('<div class = "right-game-container"></div>');
+    const $drawHangman = $('<div class = "h5p-draw-hangman" id="draw"></div>');
+    const $canvasDiv = $('<canvas name ="canvas" id="canvas"></canvas>');
+    const $footContainer = $('<div class = "foot-container"></div>');
+    const $buttonContainer = $('<div class = "h5p-button-container"></div>');
+    const $guessesContainer = $('<div class = "guess-container"></div>');
 
     // Add status bar
-    let $status = $('<div class="h5p-status">' +
+    const $status = $('<div class="h5p-status">' +
       '<div  style= "display:inline-block" class="h5p-time-spent"><time role="timer" datetime="PT00H00M0S">00:00:00</time></div>' +
       '<div class = "h5p-attempts-left" style= " display:inline-block"> Attempts left : <span>' + that.levelChosen + '</span></div>' +
       '</div>');
     let timer = new Hangman.Timer($status.find('time')[0]);
 
     // Task description
-    let $taskDescription = $('<p> Use the alphabets below to guess the word, or click the hint to get a clue </p>');
+    const $taskDescription = $('<p> Use the alphabets below to guess the word, or click the hint to get a clue </p>');
 
     // Define wordlist and hintlist
     let wordList = [];
@@ -75,18 +85,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
         // If space present in randomized word
         guess.innerHTML = " ";
-
       }
       else {
-
         guess.innerHTML = "_";
-
       }
       that.guesses.push(guess);
     }
 
     //	Alphabets
-    let $alphabets = $('<div class="alphabet-container"></div>');
+    const $alphabets = $('<div class="alphabet-container"></div>');
     let letter;
     for (let i = 65; i <= 90; i++) {
       letter = String.fromCharCode(i);
@@ -114,7 +121,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
         // When clicking hint button, stop the timer and show popup window
         timer.stop();
         popup.show(hintWord, function () {
-          $container.addClass('.h5p-hangman-shadow');
+          $container.addClass('h5p-hangman-shadow');
         });
       }
     });
@@ -139,7 +146,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
 
     // Append all elements
-
     $(".container-landscape").css('background-size', "0");
     $status.appendTo($topDiv);
     $taskDescription.appendTo($leftGameContainer);
@@ -163,7 +169,10 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.trigger('resize');
   };
 
-  // After letter is clicked
+  /**
+   * After a letter is clicked
+   * @param {H5P.Hangman.Timer} timer
+   */
   Hangman.prototype.afterLetterClick = function ($letter, randomizedWord, guesses, timer) {
     let that = this;
 
@@ -231,7 +240,10 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
 
-  // Draw hangman on canvas
+  /**
+   * Draw Hangman function
+   *
+   */
   Hangman.prototype.drawHangman = function ($container, timer) {
     let that = this;
     let canvas = $('.h5p-draw-hangman').find('canvas')[0];
@@ -273,39 +285,39 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     let drawArray = [];
 
 
-    let frame1 = function () {
+    const frame1 = function () {
       line(unitHt - unitWt, height - 5, width, height - 5, "#ea622c", 10);
     };
 
-    let frame2 = function () {
+    const frame2 = function () {
       line(unitWt, height - 2, unitWt, unitHt - unitWt, "#ea622c", 10);
     };
 
-    let frame3 = function () {
+    const frame3 = function () {
       line(unitWt, unitHt - unitWt + 2 * unit, 4.5 * unitWt, unitHt - unitWt + 2 * unit, "#ea622c", 10);
     };
 
-    let frame4 = function () {
+    const frame4 = function () {
       line(3.5 * unitWt, unitHt - unitWt + unit * 4, 3.5 * unitWt, unitHt / 2, "#edb41e", 5);
     };
 
-    let torso = function () {
+    const torso = function () {
       line(3.5 * unitWt, unitHt / 2.2 + 2 * radius + 2.5 * unit, 3.5 * unitWt, unitHt * 3.3, "#0ebb7a", 5);
     };
 
-    let rightArm = function () {
+    const rightArm = function () {
       line(3.5 * unitWt, unitHt * 2.2, 4.5 * unitWt, unitHt * 2.7, "#0ebb7a", 5);
     };
 
-    let leftArm = function () {
+    const leftArm = function () {
       line(3.5 * unitWt, unitHt * 2.2, 2.5 * unitWt, unitHt * 2.7, "#0ebb7a", 5);
     };
 
-    let rightLeg = function () {
+    const rightLeg = function () {
       line(3.5 * unitWt, unitHt * 3.3, 4.5 * unitWt, unitHt * 4.3, "#0ebb7a", 5);
     };
 
-    let leftLeg = function () {
+    const leftLeg = function () {
       line(3.5 * unitWt, unitHt * 3.3, 2.5 * unitWt, unitHt * 4.3, "#0ebb7a", 5);
     };
 
@@ -330,12 +342,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   };
 
-  // if win
+  /**
+   * If wins
+   *
+   */
   Hangman.prototype.afterWinGame = function ($container, timer) {
     let that = this;
     $container.empty();
     $container.addClass("game-win-page");
-    let $resultDiv = $('<div class="h5p-result-div"></div>');
+    const $resultDiv = $('<div class="h5p-result-div"></div>');
     let time = timer.getTime();
     time = time / 1000;
     time = time.toFixed(0);
@@ -372,17 +387,21 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   };
 
+
+  /**
+   * If game is over / no attempts left
+   *
+   */
   Hangman.prototype.gameOver = function ($container, timer) {
     let that = this;
     $container.empty();
     $container.addClass("game-over-page");
-    let $resultDiv = $('<div class="h5p-result-div"></div>');
+    const $resultDiv = $('<div class="h5p-result-div"></div>');
 
     // Caluclate the time
     let time = timer.getTime();
     time = time / 1000;
     time = time.toFixed(0);
-    // /console.log(time);
     let minutes = Math.floor(time / 60);
     if (minutes < 10) {
       minutes = '0' + minutes;
@@ -395,12 +414,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     $('<p class="total-time-spent">Time spent ' + '<span>' + time + '</span></p>').appendTo($resultDiv);
 
     $('<p class="total-attempts-made">Attempts left  ' + '<span>' + (this.attemptsLeft) + '</span></p>').appendTo($resultDiv);
-    // console.log(that.levelChosen, this.attempts);
+
     that.$progressBar = UI.createScoreBar(this.max);
     that.$progressBar.setScore(this.score);
     that.$progressBar.appendTo($resultDiv);
     $resultDiv.appendTo($container);
-
 
     that.$playAgain = UI.createButton({
       title: 'retry',
@@ -416,17 +434,22 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   };
 
-  // Attach function
+  /**
+   * Attach this game's html to the given container
+   *
+   * @param {H5P.jQuery} $container
+   */
   Hangman.prototype.attach = function ($container) {
     let that = this;
     $container.addClass("h5p-hangman");
 
-    let $wrapper = $('<div class="hangman-wrapper"></div>');
-    let imgSrc = $(".h5p-hangman").css('background-image').replace('url("', '').replace('")', '');
+    const $wrapper = $('<div class="hangman-wrapper"></div>');
+    const imgSrc = $(".h5p-hangman").css('background-image').replace('url("', '').replace('")', '');
     $('<img class="bgImage" src = ' + imgSrc + ' />').css('height', "95%").appendTo($wrapper);
 
-    let $selectContainer = $('<div class="select-container"></div>');
-    let $categorySelect = $('<select name="category" class="category sources" placeholder="Chose Category">' +
+    const $selectContainer = $('<div class="select-container"></div>');
+
+    const $categorySelect = $('<select name="category" class="category sources" placeholder="Chose Category">' +
       '</select>');
     $('<div class="arrow-left"></div>').appendTo($selectContainer);
     $('<option value="' + that.options.categorySelectionList[0].categoryText + '" selected class="options-select">' + that.options.categorySelectionList[0].categoryText + '</option>').appendTo($categorySelect);
@@ -448,7 +471,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.categoryChosen = $selectContainer.find('.category').val();
     $selectContainer.find('.category').on('change', function () {
       that.categoryChosen = this.value;
-      // console.log(that.categoryChosen);
     });
 
     that.levelChosen = $selectContainer.find('.level').val();
@@ -457,7 +479,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
 
 
-    let start = function () {
+    const start = function () {
       // If value of level and category is not null / undefined
       if ($(".level").value !== "" && $(".category").value !== "") {
         that.startGame($container);

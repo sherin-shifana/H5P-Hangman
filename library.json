@@ -21,7 +21,7 @@
                         "path": "js/h5p-hangman-timer.js"
                 },
                 {
-                        "path": "js/popup.js"
+                        "path": "js/h5p-hangman-popup.js"
                 }
        ],
        "preloadedDependencies":[

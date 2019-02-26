@@ -15,7 +15,7 @@
 
     let $popup = $('<div class="h5p-hangman-pop" role="dialog"><div class="h5p-hangman-top"></div><div class="h5p-hangman-hint h5p-programatically-focusable" tabindex="-1"></div><div class="h5p-hangman-close" role="button" tabindex="0">x</div></div>').appendTo($container);
     let $hint = $popup.find('.h5p-hangman-hint');
-    let $top = $popup.find('.h5p-hangman-top');
+    // let $top = $popup.find('.h5p-hangman-top');
 
     // Hook up the close button
     $popup.find('.h5p-hangman-close').on('click', function () {
