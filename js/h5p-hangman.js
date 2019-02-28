@@ -455,8 +455,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     $('<option value="' + that.options.categorySelectionList[0].categoryText + '" selected class="options-select">' + that.options.categorySelectionList[0].categoryText + '</option>').appendTo($categorySelect);
     for (let i = 1; i < that.options.categorySelectionList.length; i++) {
       $('<option value="' + that.options.categorySelectionList[i].categoryText + '" class="options-select">' + that.options.categorySelectionList[i].categoryText + '</option>').appendTo($categorySelect);
-
     }
+
     $categorySelect.appendTo($selectContainer);
 
     $('<select class="level sources" placeholder="Difficult level">' +
@@ -488,7 +488,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     // Start game button
     that.$startGame = UI.createButton({
-      title: 'retry',
+      title: 'Start the Game',
       'text': 'Start Game',
       'class': 'start-button',
       click: function () {
