@@ -22,6 +22,12 @@
                 },
                 {
                         "path": "js/h5p-hangman-popup.js"
+                },
+                {
+                        "path": "js/h5p-hangman-counter.js"
+                },
+                {
+                        "path": "js/h5p-hangman-hangman.js"
                 }
        ],
        "preloadedDependencies":[
