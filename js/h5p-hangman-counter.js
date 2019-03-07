@@ -28,9 +28,13 @@
     };
 
     self.decrement = function () {
-      current--;
+      if (current > 0) {
+        current--;
+      }
       update();
-    }
+    };
+
+    
     /**
     * Revert counter back to its natural state
     */
