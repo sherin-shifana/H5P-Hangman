@@ -55,18 +55,26 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$hangmanContainer = $('<div class="hangman-container"></div>');
     this.$buttonContainer = $('<div class="button-container"></div>');
 
+    this.$leftContainer = $('<div class="left-container"></div>');
+    this.$rightContainer = $('<div class="right-container"></div>');
+
+    this.$topContainer = $('<div class="top-container"></div>');
+    this.$gameContainer = $('<div class="game-container"></div>');
+
+    this.$mainContainer = $('<div class="main-container"></div>');
+
     const callBackFunction = that.resetAll.bind(this);
     this.$playAgainButton = UI.createButton({
       'title': 'Play Again',
       'text': 'Play Again',
-      'class': 'retry-button',
+      'class': 'retry-button button',
       click : callBackFunction
     }).appendTo(this.$buttonContainer);
 
     this.$hintButton = UI.createButton({
       'title': 'Hint',
       'text': 'Hint',
-      'class': 'hint-button',
+      'class': 'hint-button button',
       click : function () {
         console.log(that.popup);
         that.popup.show(that.chosenWord.hint);
@@ -80,7 +88,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     console.log(this);
     this.$container.empty().removeClass('first-screen');
     this.createGameScreenDomElements();
-    this.$status.appendTo(this.$container);
+    this.$status.appendTo(this.$topContainer);
 
     that.attemptsLeft = that.levelChosen;
     const $taskDescription = $('<p> Use the alphabets below to guess the word, or click the hint to get a clue </p>');
@@ -98,13 +106,22 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }
     this.count = 0;
 
-    $taskDescription.appendTo(this.$container);
-    this.$alphabetContainer.appendTo(this.$container);
+    $taskDescription.appendTo(this.$leftContainer);
+    this.$alphabetContainer.appendTo(this.$leftContainer);
+    $('<p>The chosen category is <span>'+that.categoryChosen+'</span></p>').appendTo(this.$leftContainer);
+    this.$guessContainer.appendTo(this.$leftContainer);
+
     this.hangman.appendTo(this.$hangmanContainer);
-    this.$hangmanContainer.appendTo(this.$container);
-    $('<p>The chosen category is '+that.categoryChosen+'</p>').appendTo(this.$container);
-    this.$guessContainer.appendTo(this.$container);
-    this.$buttonContainer.appendTo(this.$container);
+    this.$hangmanContainer.appendTo(this.$rightContainer);
+    this.$buttonContainer.appendTo(this.$rightContainer);
+
+    this.$leftContainer.appendTo(this.$gameContainer);
+    this.$rightContainer.appendTo(this.$gameContainer);
+
+    this.$topContainer.appendTo(this.$container);
+    this.$gameContainer.appendTo(this.$container);
+
+
 
     console.log($('.h5p-hangman-pop').find('.h5p-hangman-close'));
     $('.h5p-hangman-pop').find('.h5p-hangman-close').click(function () {
@@ -113,7 +130,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     that.$alphabetContainer.find('.h5p-letter').click(function () {
       that.timer.play();
-      $(this).attr('disabled', true);
+      // $(this).attr('disabled', true);
+      $(this).addClass("h5p-letter-after-click");
       const foundAt = that.checkGuess($(this).text());
       if (foundAt.length === 0) {
         that.attemptsLeft--;
@@ -166,7 +184,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     const callBackFunction = that.resetAll.bind(this);
     this.$playAgain = UI.createButton({
       'text': 'Play Again',
-      'class': 'retry-button',
+      'class': 'retry-button button',
       click : callBackFunction
     });
   }
@@ -241,7 +259,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.$startGameButton = UI.createButton({
       'title': 'Start the Game',
       'text': 'Start Game',
-      'class': 'start-button',
+      'class': 'start-button button',
       click : cFunction
     });
 
