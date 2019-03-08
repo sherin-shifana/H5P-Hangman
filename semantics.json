@@ -1,4 +1,12 @@
 [
+  {
+    "label":"Task Description",
+    "name":"taskDescription",
+    "type":"text",
+    "default":"Use the alphabets below to guess the word, or click the hint to get a clue.",
+    "description":"A guide telling the user how to solve this task.",
+    "importance":"high"
+  },
    {
       "name":"categorySelectionList",
       "type":"list",
@@ -219,6 +227,57 @@
     "default": "You got :num out of :total points",
     "importance": "low",
     "common": true
-  }
-
+  },
+  {
+   "label":"Localization",
+   "importance":"low",
+   "name":"l10n",
+   "type":"group",
+   "common":true,
+   "fields":[
+     {
+       "label":"Task Description",
+       "importance":"low",
+       "name":"taskDescription",
+       "type":"text",
+       "default":"Use the alphabets below to guess the word, or click the hint to get a clue."
+     },
+     {
+       "label":"Attempts Left text",
+       "importance":"low",
+       "name":"attemptsLeft",
+       "type":"text",
+       "default":"Attempts Left"
+     },
+     {
+       "label": "Feedback text",
+       "importance": "low",
+       "name": "score",
+       "type": "text",
+       "default": "You got @score of @total points",
+       "description": "Feedback text, variables available: @score and @total. Example: 'You got @score of @total possible points'"
+     },
+     {
+       "label": "Text for \"Start Game\" button",
+       "importance": "low",
+       "name": "startGame",
+       "type": "text",
+       "default": "Start Game"
+     },
+     {
+       "label": "Text for \"Retry\" button",
+       "importance": "low",
+       "name": "playAgain",
+       "type": "text",
+       "default": "Play Again"
+     },
+     {
+       "label": "Text for \"Hint\" button",
+       "importance": "low",
+       "name": "hint",
+       "type": "text",
+       "default": "Hint"
+     }
+   ]
+ }
 ]
