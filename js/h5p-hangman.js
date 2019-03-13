@@ -45,6 +45,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     this.$taskDescription = $('<div class="task-description">'+this.options.l10n.taskDescription+'</div>');
     this.$alphabetContainer = $('<div class="alphabet-container"></div>');
+    // this.$chosenCategory = $('<div>'+this.options.l10n.chosenCategory+'<span>'+this.categoryChosen+'</span></div>');
     this.$guessContainer = $('<div class="guess-container"></div>');
 
     this.$hangmanContainer = $('<div class="hangman-container"></div>');
@@ -58,7 +59,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     this.$mainContainer = $('<div class="main-container"></div>');
 
-    const callBackFunction = that.resetAll.bind(this);
+    const callBackFunction = that.resetTask.bind(this);
     this.$playAgainButton = UI.createButton({
       'title': 'Play Again',
       'class': 'retry-button button',
@@ -83,6 +84,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     console.log(this);
     this.$container.empty().removeClass('first-screen');
     this.createGameScreenDomElements();
+    this.$container.addClass('second-screen');
     this.$status.appendTo(this.$topContainer);
 
     that.attemptsLeft = that.levelChosen;
@@ -93,7 +95,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
 
     const guesses = that.chosenWord.word;
-    this.maxScore = guesses.length;
 
     for (let i = 0; i < guesses.length; i++) {
       // const guess = guesses[i];
@@ -103,6 +104,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     this.$taskDescription.appendTo(this.$leftContainer);
     this.$alphabetContainer.appendTo(this.$leftContainer);
+    // this.$chosenCategory.appendTo(this.$leftContainer);
     $('<p>The chosen category is <span>'+that.categoryChosen+'</span></p>').appendTo(this.$leftContainer);
     this.$guessContainer.appendTo(this.$leftContainer);
 
@@ -169,14 +171,16 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     else {
       that.addGuessedLetter(foundAt, $letter.text());
       that.count = that.count + foundAt.length;
-      console.log(that.count);
+      this.score = that.getScore(this.count);
     }
-    console.log(that.attemptsLeft);
+
+    this.maxScore = that.getMaxScore(this.chosenWord.word);
+
     if (that.attemptsLeft === 0) {
       that.gameWon = false;
       that.showFinalScreen();
     }
-    else if (that.maxScore === that.count) {
+    else if (this.maxScore === this.score) {
       that.gameWon = true;
       that.showFinalScreen();
     }
@@ -185,7 +189,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   Hangman.prototype.showFinalScreen = function () {
     this.$container.empty();
-    if (this.gameWon) {
+    this.getAnswerGiven();
+    if (this.isCorrect) {
       this.$container.addClass("game-win-page");
     }
     else {
@@ -208,7 +213,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$progressBar = UI.createScoreBar(that.maxScore);
     this.$progressBar.setScore(that.count);
 
-    const callBackFunction = that.resetAll.bind(this);
+    const callBackFunction = that.resetTask.bind(this);
     this.$playAgain = UI.createButton({
       'text': 'Play Again',
       'class': 'retry-button button',
@@ -216,13 +221,10 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
   }
 
-  Hangman.prototype.resetAll = function () {
+  Hangman.prototype.resetTask = function () {
     // alert("wrk");
     const that = this;
     that.$container.empty().removeClass('game-win-page').removeClass('game-over-page');
-
-    // that.categories = [];
-    // that.createStartScreenDomElements();
     that.attach(that.$container);
   };
 
@@ -239,10 +241,24 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     return foundAt;
   };
 
-  Hangman.prototype.createButton = function () {
-
+  Hangman.prototype.getAnswerGiven = function () {
+    const that = this;
+    if (that.gameWon) {
+      that.answered = true;
+    }
+    else {
+      that.isCorrect = true;
+    }
+    return this.answered || this.isCorrect;
   };
 
+  Hangman.prototype.getScore = function (score) {
+    return score;
+  };
+
+  Hangman.prototype.getMaxScore = function (word) {
+    return word.length;
+  };
   // get randomized word
   Hangman.prototype.getWord = function () {
     const that = this;
@@ -306,6 +322,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     $contentWrapper.appendTo($container);
     that.$container = $container;
 
+    that.on('resize', function () {
+
+    });
     that.trigger('resize');
   };
 

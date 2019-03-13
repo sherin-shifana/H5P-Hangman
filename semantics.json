@@ -229,6 +229,13 @@
     "common": true
   },
   {
+    "label":"Text to show which category is chosen",
+    "importance":"low",
+    "name":"chosenCategory",
+    "type":"text",
+    "default":"The chosen category is "
+  },
+  {
    "label":"Localization",
    "importance":"low",
    "name":"l10n",
@@ -241,6 +248,13 @@
        "name":"taskDescription",
        "type":"text",
        "default":"Use the alphabets below to guess the word, or click the hint to get a clue."
+     },
+     {
+       "label":"Text to show which category is chosen",
+       "importance":"low",
+       "name":"chosenCategory",
+       "type":"text",
+       "default":"The chosen category is "
      },
      {
        "label":"Attempts Left text",

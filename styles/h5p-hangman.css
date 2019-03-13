@@ -1,7 +1,8 @@
 .h5p-hangman {
   font-family: sans-serif;
   margin: 0 auto;
-  height: 100vh;
+  height: 100%;
+  min-height: 400px;
   /* overflow: auto; */
   text-align: center;
   color: black;
@@ -9,13 +10,15 @@
 
 .first-screen {
   background-image: url(../images/background.jpg);
-  background-size:70%;
+  background-size:contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-origin: content-box;
+  padding: 2em;
 }
 
 .h5p-hangman .content-wrapper {
-  margin-top: 25vh;
+  margin-top: 10em;
   padding-left: 10em;
 }
 
@@ -40,7 +43,6 @@
   background-repeat: no-repeat;
 }
 
-
 .h5p-letter:focus {
   outline: black dashed 1px;
 }
@@ -49,6 +51,12 @@
 .h5p-hangman .top-container .h5p-attempts-left {
   display: inline-block;
   padding: 2% 20% 0 20%;
+}
+.h5p-hangman .top-container .h5p-time-spent time,
+.h5p-hangman .top-container .h5p-attempts-left span{
+  border: 1px solid grey;
+  padding: .1em;
+  border-radius: .2em ;
 }
 .h5p-hangman .game-container .left-container,
 .h5p-hangman .game-container .right-container{
@@ -181,6 +189,7 @@ border-radius: 5px;
 .game-win-page>.result-div>.total-attempts-made>span,
 .game-over-page>.result-div>.total-attempts-made>span{
   margin-left: 5em;
+
 }
 
 .game-over-page>.retry-button,
@@ -188,7 +197,177 @@ border-radius: 5px;
   margin-left: 10em !important;
 }
 
+/*
+@media only screen and (min-width:289px) {
+  .first-screen {
+    background-position: top;
+    margin-top: 2em;
+  }
+  .h5p-hangman .content-wrapper {
+    padding-left: 0em;
+  }
+  .h5p-hangman .content-wrapper select {
+      padding: .5em .1em;
+      width: 8em;
+      margin: 2em .1em;
+  }
+  .second-screen{
 
-/* .h5p-hangman .hangman-container {
-  margin-top: 2em;
+    font-size: 1em;
+  }
+  .second-screen .task-description {
+    font-size: 0;
+  }
+
+  .h5p-hangman .game-container .alphabet-container .h5p-letter{
+    height: 1.2em;
+    width: 1.2em;
+    line-height:1.2 ;
+  }
+  .h5p-hangman .top-container .h5p-time-spent,
+  .h5p-hangman .top-container .h5p-attempts-left {
+    padding: 2% 2% 0 2%;
+  }
+
+  .h5p-hangman .game-container #canvas {
+    height: 8em;
+    width: 8em;
+  }
+  .h5p-hangman .guess-container .guess {
+    font-size: 1.5em !important;
+  }
+.game-over-page {
+    background-image: url(../images/gameoverMobile.png);
+    background-size: 50%;
+    background-position: top;
+    margin-top: 2em;
+    padding-left: 0;
+  }
+  .game-win-page {
+      background-image: url(../images/gamewinMobile.png);
+      background-size: contain;
+      background-position: top;
+      margin-top: 2em;
+      padding-left: 0;
+  }
+  .game-over-page .result-div,
+  .game-win-page .result-div {
+    margin-left: 5%;
+  }
+  .game-over-page .retry-button,
+  .game-win-page .retry-button {
+    margin-left: 0 !important;
+  }
+}
+
+@media only screen and (min-width:576px) {
+  .h5p-hangman .content-wrapper {
+    margin-top: 45em;
+  }
+  .h5p-hangman .game-container .left-container {
+    padding-top: 0;
+  }
+  .h5p-hangman .game-container .button-container {
+    margin-top: 1em;
+  }
+  .game-over-page, .game-win-page {
+    background-size: 30%;
+  }
+  .game-over-page .result-div,
+  .game-win-page .result-div {
+    margin-left: 25%;
+    margin-top: 45em;
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .first-screen {
+    background-position: center;
+    margin-top: unset;
+  }
+  .h5p-hangman .content-wrapper {
+    padding-left: 10em;
+    margin-top: 35em;
+  }
+  .h5p-hangman .content-wrapper select {
+      padding: .5em 1em;
+      margin: 1em;
+  }
+  .h5p-hangman .top-container .h5p-time-spent,
+  .h5p-hangman .top-container .h5p-attempts-left {
+    padding: 5% 15% 0 15%;
+  }
+  .h5p-hangman .game-container .alphabet-container .h5p-letter {
+    font-size: 1.2em;
+    height: 1.6em;
+    width: 1.6em;
+    line-height: 1.5;
+  }
+  .h5p-hangman .guess-container .guess {
+    font-size: 3em !important;
+  }
+  .h5p-hangman .game-container #canvas {
+    height: 12em;
+    width: 12em
+  }
+  .game-over-page {
+      background-image: url(../images/gameover.jpg);
+      background-size: 75%;
+      background-position: top;
+      margin-top: 2em;
+      padding-left: 0;
+    }
+    .game-win-page {
+        background-image: url(../images/gamewin.jpg);
+        background-size: 75%;
+        background-position: top;
+        margin-top: 2em;
+        padding-left: 0;
+    }
+    .game-over-page .result-div,
+    .game-win-page .result-div {
+      margin-left: 48%;
+      margin-top: 20em;
+    }
+    .game-over-page .retry-button,
+    .game-win-page .retry-button {
+      margin-left: 15em !important;
+    }
+}
+
+@media only screen and (min-width:992px) {
+  .h5p-hangman .content-wrapper {
+    padding-left: 10em;
+    margin-top: 30em;
+  }
+  .h5p-hangman .content-wrapper select {
+      padding: .5em 2em;
+      margin: 2em;
+      width: 10em;
+  }
+  .second-screen .task-description {
+    font-size: 1em;
+
+    margin-bottom: 1em;
+  }
+  .h5p-hangman .top-container .h5p-time-spent,
+  .h5p-hangman .top-container .h5p-attempts-left {
+    padding: 5% 20% 0 20%;
+  }
+  .h5p-hangman .game-container #canvas {
+    height: 15em;
+    width: 15em
+  }
+}
+
+@media only screen and (min-width:1200px) {
+  .game-over-page .result-div,
+  .game-win-page .result-div {
+    margin-left: 50%;
+    margin-top: 30em;
+  }
+  .game-over-page .retry-button,
+  .game-win-page .retry-button {
+    margin-left: 18em !important;
+  }
 } */
