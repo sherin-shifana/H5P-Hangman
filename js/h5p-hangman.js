@@ -72,7 +72,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       'html' : '<span></span>&nbsp;' + this.options.l10n.hint,
       'class': 'hint-button button',
       click : function () {
-        console.log(that.popup);
         that.popup.show(that.chosenWord.hint);
       }
     }).appendTo(this.$buttonContainer);
@@ -80,8 +79,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   Hangman.prototype.startGame = function () {
     const that = this;
+    that.triggerXAPI('interacted');
     that.getWord();
-    console.log(this);
     this.$container.empty().removeClass('first-screen');
     this.createGameScreenDomElements();
     this.$container.addClass('second-screen');
@@ -118,9 +117,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$topContainer.appendTo(this.$container);
     this.$gameContainer.appendTo(this.$container);
 
-
-
-    console.log($('.h5p-hangman-pop').find('.h5p-hangman-close'));
     $('.h5p-hangman-pop').find('.h5p-hangman-close').click(function () {
       that.popup.close();
     });
@@ -173,8 +169,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       that.count = that.count + foundAt.length;
       this.score = that.getScore(this.count);
     }
-
     this.maxScore = that.getMaxScore(this.chosenWord.word);
+
+    that.triggerXAPIScored(this.count, this.maxScore,'answered');
 
     if (that.attemptsLeft === 0) {
       that.gameWon = false;
@@ -190,10 +187,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.showFinalScreen = function () {
     this.$container.empty();
     this.getAnswerGiven();
-    if (this.isCorrect) {
+    if (this.gameWon) {
+      this.triggerXAPICompleted(this.score, this.maxScore, true);
       this.$container.addClass("game-win-page");
     }
     else {
+      this.triggerXAPIScored(this.score, this.maxScore, false);
       this.$container.addClass("game-over-page");
     }
     this.createFinalScreenDomElements();
@@ -204,6 +203,13 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$resultDiv.appendTo(this.$container);
     this.$playAgain.appendTo(this.$container);
   };
+
+  H5P.externalDispatcher.on('xAPI', function (event) {
+    console.log(event.data.statement.verb.display);
+
+    // console.log(event.data.statement.result.score.raw);
+    // console.log(event.data.statement.result.score.max);
+  });
 
   Hangman.prototype.createFinalScreenDomElements = function () {
     const that = this;
@@ -219,7 +225,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       'class': 'retry-button button',
       click : callBackFunction
     });
-  }
+  };
 
   Hangman.prototype.resetTask = function () {
     // alert("wrk");
@@ -244,10 +250,10 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.getAnswerGiven = function () {
     const that = this;
     if (that.gameWon) {
-      that.answered = true;
+      this.isCorrect = true;
     }
     else {
-      that.isCorrect = true;
+      this.answered = true;
     }
     return this.answered || this.isCorrect;
   };
