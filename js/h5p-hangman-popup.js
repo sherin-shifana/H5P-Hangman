@@ -9,6 +9,7 @@
    */
   Hangman.Popup = function ($container) {
     /** @alias H5P.Hangman.Popup# */
+    // for unidentiacl
     let that = this;
 
     let closed;
