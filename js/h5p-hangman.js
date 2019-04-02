@@ -6,6 +6,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.options = options;
     // Keep provided id.
     that.id = id;
+    that.isInline = true;
+    that.isGameStarted = false;
+    that.isGameFinished = false;
     that.createStartScreenDomElements();
   }
 
@@ -72,7 +75,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       'html' : '<span></span>&nbsp;' + this.options.l10n.hint,
       'class': 'hint-button button',
       click : function () {
-        console.log(that.popup);
+
         that.popup.show(that.chosenWord.hint);
       }
     }).appendTo(this.$buttonContainer);
@@ -80,8 +83,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   Hangman.prototype.startGame = function () {
     const that = this;
+    that.isGameStarted = true;
     that.getWord();
-    console.log(this);
+
     this.$container.empty().removeClass('first-screen');
     this.createGameScreenDomElements();
     this.$container.addClass('second-screen');
@@ -102,13 +106,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }
     this.count = 0;
 
-    this.$taskDescription.appendTo(this.$leftContainer);
+    this.$taskDescription.appendTo(this.$topContainer);
     this.$alphabetContainer.appendTo(this.$leftContainer);
     // this.$chosenCategory.appendTo(this.$leftContainer);
     $('<p>The chosen category is <span>'+that.categoryChosen+'</span></p>').appendTo(this.$leftContainer);
     this.$guessContainer.appendTo(this.$leftContainer);
 
-    this.hangman.appendTo(this.$hangmanContainer);
+
+    this.hangman.appendTo(this.$hangmanContainer,true);
+
     this.$hangmanContainer.appendTo(this.$rightContainer);
     this.$buttonContainer.appendTo(this.$rightContainer);
 
@@ -119,8 +125,30 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$gameContainer.appendTo(this.$container);
 
 
+    this.on('changeHangmanContainer',function () {
+      this.$hangmanContainer.empty();
+      if (this.isInline) {
+        this.hangman.appendTo(this.$hangmanContainer,this.canvasSize);
+        this.changeToInlineMode();
+      }
+      else {
+        this.hangman.appendTo(this.$hangmanContainer,this.canvasSize);
+        this.changeToBlockMode();
+      }
 
-    console.log($('.h5p-hangman-pop').find('.h5p-hangman-close'));
+
+
+      this.hangman.redraw(this.attemptsLeft);
+
+      this.$container.css({'height': 'auto'});
+
+
+    });
+
+
+
+    // console.log($('.h5p-hangman-pop').find('.h5p-hangman-close'));
+
     $('.h5p-hangman-pop').find('.h5p-hangman-close').click(function () {
       that.popup.close();
     });
@@ -155,7 +183,23 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
         }
       });
 
+
+
+    that.trigger('resize');
+
   };
+
+  Hangman.prototype.changeToInlineMode = function () {
+
+    this.$container.find('.left-container').removeClass('inline');
+    this.$container.find('.right-container').removeClass('inline');
+
+  };
+
+  Hangman.prototype.changeToBlockMode = function () {
+    this.$container.find('.left-container').addClass('inline');
+    this.$container.find('.right-container').addClass('inline');
+  }
 
   Hangman.prototype.afterLetterClick = function ($letter) {
     var that = this;
@@ -178,10 +222,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     if (that.attemptsLeft === 0) {
       that.gameWon = false;
+      that.isGameFinished = true;
       that.showFinalScreen();
     }
     else if (this.maxScore === this.score) {
       that.gameWon = true;
+      that.isGameFinished = true;
       that.showFinalScreen();
     }
   };
@@ -189,6 +235,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   Hangman.prototype.showFinalScreen = function () {
     this.$container.empty();
+    this.isGameStarted = false;
     this.getAnswerGiven();
     if (this.isCorrect) {
       this.$container.addClass("game-win-page");
@@ -203,6 +250,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$progressBar.appendTo(this.$resultDiv);
     this.$resultDiv.appendTo(this.$container);
     this.$playAgain.appendTo(this.$container);
+
+    this.trigger('resize');
   };
 
   Hangman.prototype.createFinalScreenDomElements = function () {
@@ -224,8 +273,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.resetTask = function () {
     // alert("wrk");
     const that = this;
+    that.isGameStarted = false;
+    that.isGameFinished = false;
+    that.isInline = true;
+    that.canvasSize = 0;
+
+
     that.$container.empty().removeClass('game-win-page').removeClass('game-over-page');
     that.attach(that.$container);
+
   };
 
   Hangman.prototype.checkGuess = function (letter) {
@@ -244,12 +300,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.getAnswerGiven = function () {
     const that = this;
     if (that.gameWon) {
-      that.answered = true;
-    }
-    else {
       that.isCorrect = true;
     }
-    return this.answered || this.isCorrect;
+    else {
+      that.isCorrect = false;
+    }
+    return  this.isCorrect;
   };
 
   Hangman.prototype.getScore = function (score) {
@@ -323,6 +379,47 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.$container = $container;
 
     that.on('resize', function () {
+
+      if (that.isGameStarted) {
+        if (window.innerWidth >= 576) {
+          that.isInline = true;
+          if (window.innerWidth < 768 && that.canvasSize !== 200) {
+            that.canvasSize = 200;
+            that.trigger('changeHangmanContainer');
+          }
+          if (window.innerWidth > 768 && that.canvasSize !== 250) {
+            that.canvasSize = 250;
+            that.trigger('changeHangmanContainer');
+          }
+          if (window.innerWidth > 992 && that.canvasSize !== 300) {
+            that.canvasSize = 300;
+            that.trigger('changeHangmanContainer');
+          }
+          if (window.innerWidth > 1200 && that.canvasSize !== 350) {
+            that.canvasSize = 350;
+            that.trigger('changeHangmanContainer');
+          }
+        }
+        else {
+
+          const curMode = that.isInline;
+          if (250 < window.innerWidth && window.innerWidth < 400 && that.isInline  ) {
+            that.isInline = false;
+
+          }
+          else if (window.innerWidth > 400 && !that.isInline ) {
+            that.isInline = true;
+
+          }
+          if (that.canvasSize !== 150 || curMode !== that.isInline ) {
+            that.canvasSize = 150;
+            that.trigger('changeHangmanContainer');
+          }
+        }
+      }
+      else {
+        that.$container.css({'height': window.innerHeight+'px'});
+      }
 
     });
     that.trigger('resize');
