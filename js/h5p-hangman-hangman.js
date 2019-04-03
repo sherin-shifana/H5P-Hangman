@@ -31,8 +31,7 @@
     this.unitWt = this.width / 6;
     this.unit = 2;
 
-
-    this.radius = this.canvasSize/10;
+    this.radius = this.canvasSize/15;
     this.standWidth = (this.canvasSize/25 < 10)?10: Math.floor(this.canvasSize/25);
     this.lineWidth = (this.canvasSize/50 < 5)?5: Math.floor(this.canvasSize/50);
     this.gap = (this.canvasSize/50 < 5)?5: Math.floor(this.canvasSize/50);
@@ -61,7 +60,7 @@
     context.stroke();
     context.closePath();
   };
-  
+
   Hangman.HangmanVector.prototype.draw = function () {
 
     switch (this.currentState) {
@@ -83,7 +82,7 @@
 
       case 7:
       //frame4
-        this.drawLine(this.canvasSize*0.5, (this.gap*2)+(this.standWidth/2), this.canvasSize*0.5 ,this.gap*7, "#edb41e", this.standWidth);
+        this.drawLine(this.canvasSize*0.5, (this.gap*2)+(this.standWidth/2), this.canvasSize*0.5 ,this.gap*7, "#edb41e", this.standWidth*0.8);
         break;
 
       case 6:
@@ -92,22 +91,22 @@
         break;
       case 5:
       // torso
-        this.drawLine(this.canvasSize*0.5, (this.gap*7)+(2*this.radius), this.canvasSize*0.5, this.canvasSize*0.7, "#0ebb7a", this.lineWidth);
+        this.drawLine(this.canvasSize*0.5, (this.gap*7)+(2*this.radius), this.canvasSize*0.5, this.canvasSize*0.6, "#0ebb7a", this.lineWidth);
         break;
       case 4:
       //left arm
-        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.5, this.canvasSize*0.3, this.canvasSize*0.6, "#0ebb7a",this.lineWidth);
+        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.4, this.canvasSize*0.35, this.canvasSize*0.5, "#0ebb7a",this.lineWidth);
         break;
       case 3:
       // right arm
-        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.5, this.canvasSize*0.7, this.canvasSize*0.6, "#0ebb7a", this.lineWidth);
+        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.4, this.canvasSize*0.65, this.canvasSize*0.5, "#0ebb7a", this.lineWidth);
         break;
       case 2:
       // left leg
-        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.7, this.canvasSize*0.3, this.canvasSize*0.8, "#0ebb7a", this.lineWidth);
+        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.6, this.canvasSize*0.35, this.canvasSize*0.75, "#0ebb7a", this.lineWidth);
         break;
       case 1:
-        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.7, this.canvasSize*0.7, this.canvasSize*0.8, "#0ebb7a", this.lineWidth);
+        this.drawLine(this.canvasSize*0.5, this.canvasSize*0.6, this.canvasSize*0.65, this.canvasSize*0.75, "#0ebb7a", this.lineWidth);
         break;
       //rightleg
     }
