@@ -66,7 +66,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     this.$taskDescription = $('<div class="task-description">' + this.options.l10n.taskDescription + '</div>');
     this.$alphabetContainer = $('<div class="alphabet-container"></div>');
-    // this.$chosenCategory = $('<div>'+this.options.l10n.chosenCategory+'<span>'+this.categoryChosen+'</span></div>');
     this.$guessContainer = $('<div class="guess-container"></div>');
 
     this.$hangmanContainer = $('<div class="hangman-container"></div>');
@@ -296,8 +295,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-  *
-  */
+   * Get Xapi Data.
+   */
   H5P.externalDispatcher.on('xAPI', function (event) {
     console.log(event.data.statement.verb);
   });
@@ -381,7 +380,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   /**
   * Get the maximum score
-  * @return word length
+  * @return word.length
   */
   Hangman.prototype.getMaxScore = function (word) {
     return word.length;
@@ -412,7 +411,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   /**
   * If the clicked letter is correct, add it to the correct position
-  * @return {object} that.$guessContainer
+  * @param {H5P.jQuery} that.$guessContainer
   */
   Hangman.prototype.addGuessedLetter = function (position, letter) {
     const that = this;
@@ -423,7 +422,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   /**
    * Attach all elements to container
-   * @param {jQuery} $container The object which our task will attach to.
+   * @param {H5P.jQuery} $container The object which our task will attach to.
    */
   Hangman.prototype.attach = function ($container) {
 
