@@ -5,29 +5,33 @@
    *
    * @class H5P.Hangman.Timer
    * @extends H5P.Timer
-   * @param {Element} element
+   * @param {H5P.jQuery} element
    */
   Hangman.Timer = function (element) {
-    /** @alias H5P.Hangman.Timer# */
-    var self = this;
+
+    /**
+    * @alias H5P.Hangman.Timer#
+    */
+    const self = this;
 
     // Initialize event inheritance
     Timer.call(self, 100);
 
-    /** @private {string} */
-    var naturalState = element.innerText;
+    /**
+    * @private {string}
+    */
+    const naturalState = element.innerText;
 
     /**
      * Set up callback for time updates.
      * Formats time stamp for humans.
-     *
      * @private
      */
-    var update = function () {
-      var time = self.getTime();
-      var hours = Timer.extractTimeElement(time, 'hours');
-      var minutes = Timer.extractTimeElement(time, 'minutes');
-      var seconds = Timer.extractTimeElement(time, 'seconds') % 60;
+    const update = function () {
+      const time = self.getTime();
+      let hours = Timer.extractTimeElement(time, 'hours');
+      let minutes = Timer.extractTimeElement(time, 'minutes');
+      let seconds = Timer.extractTimeElement(time, 'seconds') % 60;
 
       // Update duration attribute
       element.setAttribute('datetime', 'PT' + hours + 'H' + minutes + 'M' + seconds + 'S');
@@ -42,7 +46,6 @@
       if (hours < 10) {
         hours = '0' + hours;
       }
-
       element.innerText = hours + ':' + minutes + ':' + seconds;
     };
 
