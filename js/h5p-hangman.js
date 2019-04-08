@@ -101,8 +101,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.startGame = function () {
     const that = this;
     that.isGameStarted = true;
-    const alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+    this.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
     this.score = 0;
+    this.clickedLetters = [];
 
     that.getWord();
     this.$container.empty().removeClass('first-screen');
@@ -114,7 +115,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.attemptsLeft = that.levelChosen;
 
     // Get each alphabet
-    alphabets.split(',').forEach(function (c) {
+    this.alphabets.split(',').forEach(function (c) {
       $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
     });
 
@@ -223,6 +224,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.timer.play();
     $letter.addClass("h5p-letter-after-click");
     const foundAt = that.checkGuess($letter.text());
+    that.clickedLetters.push($letter.text());
 
     if (foundAt.length === 0) {
       // If the clicking letter is not found in the chosen word
@@ -239,8 +241,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }
 
     // Set maximum score to the chosen word length
-    that.maxScore = that.getMaxScore(this.chosenWord.word);
-    that.triggerXAPIScored(that.score, that.maxScore, 'answered');
+    that.maxScore = that.chosenWord.word.length;
 
     if (that.attemptsLeft === 0) {
       // If there is no attempts left to continue the game
@@ -248,7 +249,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       that.isGameFinished = true;
       that.showFinalScreen();
     }
-    else if (this.maxScore === this.score) {
+    else if (that.maxScore === that.score) {
       // If the answer is entered correctly
       that.gameWon = true;
       that.isGameFinished = true;
@@ -267,12 +268,10 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     if (that.gameWon) {
       // If the answer is right
-      that.triggerXAPICompleted(that.score, that.maxScore, true);
       that.$container.addClass("game-win-page");
     }
     else {
       // If the answer is wrong or if game loses
-      that.triggerXAPIScored(that.score, that.maxScore, false);
       that.$container.addClass("game-over-page");
     }
     that.createFinalScreenDomElements();
@@ -283,11 +282,100 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.$resultDiv.appendTo(that.$container);
     that.$playAgain.appendTo(that.$container);
 
+    const xAPIEvent = this.createXAPIEventTemplate('answered');
+    this.addQuestionToXAPI(xAPIEvent);
+    this.addResponseToXAPI(xAPIEvent);
+    this.trigger(xAPIEvent);
+
     this.trigger('resize');
   };
 
   /**
+  * addQuestionToXAPI - Add the question to the definition part of an xAPIEvent
+  * @param {H5P.XAPIEvent} xAPIEvent
+  */
+  Hangman.prototype.addQuestionToXAPI = function (xAPIEvent) {
+    const definition = xAPIEvent.getVerifiedStatementValue(
+      ['object', 'definition']
+    );
+    definition.description = {
+      'en-US': this.options.l10n.taskDescription
+    };
+    definition.type =
+    'http://adlnet.gov/expapi/activities/cmi.interaction';
+    definition.interactionType = 'choice';
+    definition.correctResponsesPattern = [];
+    definition.choices = [];
+
+    this.alphabets.split(',').forEach(function (c,index) {
+      definition.choices[index] = {
+        'id': 'letter_' + c+ '',
+        'description': {
+          'en-US': 'letter '+c
+        }
+      };
+    });
+
+    const setWord = [];
+    let questionWord = this.chosenWord.word;
+    questionWord = questionWord.toUpperCase();
+    for (let i = 0; i < questionWord.length; i++) {
+      if (!setWord.includes(questionWord[i]) ) {
+        setWord.push(questionWord[i]);
+      }
+    }
+
+    setWord.forEach(function (letter,index) {
+      if (index==0) {
+        definition.correctResponsesPattern[0] = 'letter_' + letter + '[,]';
+      }
+      else if (index === setWord.length-1) {
+        definition.correctResponsesPattern[0] += 'letter_' + letter;
+      }
+      else {
+        definition.correctResponsesPattern[0] += 'letter_' + letter+ '[,]';
+      }
+    });
+  };
+
+  /**
+  * Add the response part to an xAPI event.
   *
+  * @param {H5P.XAPIEvent} xAPIEvent
+  */
+  Hangman.prototype.addResponseToXAPI = function (xAPIEvent) {
+    const maxScore = this.getMaxScore();
+    const score = this.getScore();
+    const success = (score === maxScore);
+    let response = '';
+
+    this.clickedLetters.forEach(function (letter) {
+      if (response !== '') {
+        response += '[,]';
+      }
+      response += 'letter_' + letter;
+    });
+
+    xAPIEvent.setScoredResult(score, maxScore, this, true, success);
+    xAPIEvent.data.statement.result.response = response;
+  };
+
+  /**
+    * getXAPIData - Get xAPI data.
+    *
+    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+    * @returns {Object} xApi data statement
+    */
+  Hangman.prototype.getXAPIData = function () {
+    const xAPIEvent = this.createXAPIEventTemplate('answered');
+    this.addQuestionToXAPI(xAPIEvent);
+    this.addResponseToXAPI(xAPIEvent);
+    return {
+      statement: xAPIEvent.data.statement
+    };
+  };
+
+  /**
   * Create final screen DOM elements
   */
   Hangman.prototype.createFinalScreenDomElements = function () {
@@ -360,8 +448,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   * Get the maximum score
   * @return {number} word.length
   */
-  Hangman.prototype.getMaxScore = function (word) {
-    return word.length;
+  Hangman.prototype.getMaxScore = function () {
+    return this.chosenWord.word.length;
   };
 
   /**
