@@ -525,7 +525,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     // when resize event triggers
     that.on('resize', function () {
       if (that.isGameStarted) {
-        if (window.innerWidth >= 576) {
+        if (window.innerWidth >= window.innerHeight) {
           that.isInline = true;
           if (window.innerWidth < 768 && that.canvasSize !== 200) {
             that.canvasSize = 200;
@@ -552,8 +552,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
           else if (window.innerWidth > 400 && !that.isInline) {
             that.isInline = true;
           }
+
+
           if (that.canvasSize !== 150 || curMode !== that.isInline) {
             that.canvasSize = 150;
+
+            that.isInline=false;
             that.trigger('changeHangmanContainer');
           }
         }
