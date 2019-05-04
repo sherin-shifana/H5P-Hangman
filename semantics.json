@@ -3,6 +3,7 @@
     "label":"Task Description",
     "name":"taskDescription",
     "type":"text",
+    "maxLength": 100,
     "default":"Use the alphabets below to guess the word, or click the hint to get a clue.",
     "description":"A guide telling the user how to solve this task.",
     "importance":"high"
@@ -10,7 +11,7 @@
    {
       "name":"categorySelectionList",
       "type":"list",
-      "label":"categoryList",
+      "label":"Category List",
       "importance":"high",
       "entity":"category",
       "min":1,
@@ -23,8 +24,13 @@
          "fields":[
             {
                "name":"categoryText",
+               "description":"A category with a good range of words. Eg: Animals, we know a wide range of animals.",
                "type":"text",
+               "maxLength": 15,
                "label":"Enter Category",
+               "regexp": {
+			              "pattern": "^[!@#$%^&*(),.?:{}|<>]'"
+                },
                "importance":"high"
             },
             {
@@ -47,13 +53,18 @@
                         "name":"word",
                         "type":"text",
                         "label":"Enter Word",
+                        "maxLength": 20,
+                        "regexp": {
+         			              "pattern": "^(?!(?:.*[\"!#$%&./:;<=>?@\\[\\]^_`\\{|}~'()\\-*+\\d]|^[,])).*$"
+                         },
                         "importance":"high"
                      },
                      {
                         "label":"Hint Text",
                         "name":"hintText",
+                        "maxLength": 20,
                         "type":"text",
-                        "description":"INPUT THE HINT HERE..."
+                        "description":"Input the hint here..."
                      }
                   ]
                }

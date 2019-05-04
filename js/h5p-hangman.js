@@ -20,7 +20,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.isGameFinished = false;
     that.createStartScreenDomElements();
   }
-
   /**
   * Register start screen DOM elements
   */
@@ -32,15 +31,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
 
     that.categories.forEach(function (category) {
-      $('<option value="' + category + '">' + category + '</option>').appendTo(that.$categorySelect);
+      $('<option class="option" value="' + category + '">' + category + '</option>').appendTo(that.$categorySelect);
     });
 
     that.$levelSelect = $('<select class="levels">' +
-      '<option value="10" selected class="options-select">Level 10</option>' +
-      '<option value="9" class="options-select">Level 9</option>' +
-      '<option value="8" class="options-select">Level 8</option>' +
-      '<option value="7" class="options-select">Level 7</option>' +
-      '<option value="6" class="options-select">Level 6</option>' +
+      '<option value="10" selected class="options-select">10 attempts</option>' +
+      '<option value="9" class="options-select">9 attempts</option>' +
+      '<option value="8" class="options-select">8 attempts</option>' +
+      '<option value="7" class="options-select">7 attempts</option>' +
+      '<option value="6" class="options-select">6 attempts</option>' +
       '</select>');
   };
 
@@ -78,7 +77,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     // Play again button
     const callBackFunction = that.resetTask.bind(this);
     this.$playAgainButton = UI.createButton({
-      'title': 'Play Again',
       'class': 'retry-button button',
       'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.playAgain,
       click: callBackFunction
@@ -86,7 +84,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     // Hint button
     this.$hintButton = UI.createButton({
-      'title': 'Hint',
       'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.hint,
       'class': 'hint-button button',
       click: function () {
@@ -162,17 +159,21 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     // Let the first letter to be focused when clicking tab
     let $current = that.$alphabetContainer.find('.h5p-letter').first();
+    that.$temp = $('<div></div>').appendTo(this.$container);
     $current.attr("tabindex", 0);
 
     // Clicking an alphabet or guessing a letter
     that.$alphabetContainer.find('.h5p-letter').click(function () {
+
       that.afterLetterClick($(this));
     })
       .keydown(function (event) {
         switch (event.which) {
           case 13: // Enter
           case 32: // Space
+
             if (!($(this).hasClass('h5p-letter-after-click'))) {
+
               that.afterLetterClick($(this));
             }
             event.preventDefault();
@@ -223,6 +224,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     const that = this;
     that.timer.play();
     $letter.addClass("h5p-letter-after-click");
+    const AriaLabel = "Clicked letter "+ $letter.text();
+    that.$temp.attr('tabindex',0).focus();
+    that.$temp.attr('tabindex',-1);
+    $letter.attr('tabindex',0).focus();
+    $letter.attr('aria-label', AriaLabel);
+
     const foundAt = that.checkGuess($letter.text());
     that.clickedLetters.push($letter.text());
 
@@ -390,7 +397,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$progressBar.setScore(that.score);
     const callBackFunction = that.resetTask.bind(this);
     this.$playAgain = UI.createButton({
-      'title': 'Play Again',
       'class': 'retry-button button',
       'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.playAgain,
       click: callBackFunction

@@ -55,10 +55,10 @@
       element.innerText = naturalState;
       self.notify('every_tenth_second', update);
     });
-    self.notify('every_tenth_minutes', update);
+    // self.notify('every_tenth_minutes', update);
     self.on('reset', function () {
       element.innerText = naturalState;
-      self.notify('every_tenth_minutes', update);
+
     });
   };
 
