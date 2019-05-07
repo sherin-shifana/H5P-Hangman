@@ -8,7 +8,6 @@
   min-width: 298px;
   overflow: auto !important;
   text-align: center;
-  color: black;
 }
 
 .first-screen {
@@ -44,39 +43,18 @@
   width: 6em;
   border: 1px solid black;
   font-weight: bold;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: white;
   text-overflow: ellipsis;
+ -webkit-appearance: none; 
+ -moz-appearance: none;
+  background: url(../images/blackarrow.png) no-repeat;         /*Adds background-image*/
+  background-position: 82px 7px;                /*Position of the background-image*/
 }
+
 .h5p-hangman .content-wrapper select:first-child option {
   text-overflow: ellipsis;
-  overflow-style:scroll;
 }
 .h5p-hangman .content-wrapper select:first-child {
   margin-right: 1em;
-}
-
-.h5p-hangman .content-wrapper:before {
-  content: "\f0d7";
-  font-family: H5PFontAwesome4;
-  position: absolute;
-  top: 0.3em;
-  /*2+1*/
-  left: 4.5em;
-  /*6-1-0.4-0.1*/
-  pointer-events: none;
-}
-
-.h5p-hangman .content-wrapper:after {
-  content: "\f0d7";
-  font-family: H5PFontAwesome4;
-  position: absolute;
-  right: 0.6em;
-  /*4+2*/
-  top: 0.3em;
-  pointer-events: none;
 }
 
 .h5p-hangman .h5p-status {

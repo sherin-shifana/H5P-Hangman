@@ -29,7 +29,7 @@
                "maxLength": 15,
                "label":"Enter Category",
                "regexp": {
-			              "pattern": "^[!@#$%^&*(),.?:{}|<>]'"
+                   "pattern": "^(?!(?:.*[\"!#$%&./:;<=>?@\\[\\]^_`\\{|}~'()\\-*+\\d]|^[,])).*$"
                 },
                "importance":"high"
             },
