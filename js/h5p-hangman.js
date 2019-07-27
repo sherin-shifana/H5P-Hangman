@@ -83,13 +83,16 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }).appendTo(this.$buttonContainer);
 
     // Hint button
-    this.$hintButton = UI.createButton({
-      'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.hint,
-      'class': 'hint-button button',
-      click: function () {
-        that.popup.show(that.chosenWord.hint);
-      }
-    }).appendTo(this.$buttonContainer);
+    if(that.chosenWord.hint) {
+      this.$hintButton = UI.createButton({
+        'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.hint,
+        'class': 'hint-button button',
+        click: function () {
+          that.popup.show(that.chosenWord.hint);
+        }
+      }).appendTo(this.$buttonContainer);
+    }
+
   };
 
   /**
@@ -99,6 +102,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     const that = this;
     that.isGameStarted = true;
     this.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+    this.keys = this.options.keys;
     this.score = 0;
     this.clickedLetters = [];
 
@@ -112,14 +116,22 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.attemptsLeft = that.levelChosen;
 
     // Get each alphabet
-    this.alphabets.split(',').forEach(function (c) {
-      $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
-    });
+    if(this.keys.length>=27){
+      this.keys.split(',').forEach(function (c) {
+        $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
+      });
+    }
+    else {
+      this.alphabets.split(',').forEach(function (c) {
+        $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
+      });
+    }
+
 
     // assign chosen word to guesses
     const guesses = that.chosenWord.word;
     for (let i = 0; i < guesses.length; i++) {
-      that.$guessContainer.append('<div class="guess">' + '_' + '</div>');
+      that.$guessContainer.append('<div class="guess"></div>');
     }
 
     this.$taskDescription.appendTo(this.$topContainer);
@@ -155,6 +167,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       this.$container.css({
         'height': 'auto'
       });
+    });
+
+    that.$alphabetContainer.find('.h5p-letter').each(function(c){
+      $(this).keypress(function(event){
+        alert( String.fromCharCode(event.which)==$(this).innerText);
+        console.log($(this));
+
+      });
+
     });
 
     // Let the first letter to be focused when clicking tab
@@ -200,6 +221,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   };
 
+
   /**
   * If Hangman is inline, remove inline class
   */
@@ -242,7 +264,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     else {
       // If the clicking letter is in the chosen word
       foundAt.forEach(function (index) {
-        that.$guessContainer.find('.guess')[index].innerHTML = $letter.text() + "<span>&#818;</span>";
+        that.$guessContainer.find('.guess')[index].innerHTML = $letter.text();
       });
       that.score = that.score + foundAt.length;
     }

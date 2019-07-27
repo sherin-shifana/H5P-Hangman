@@ -8,6 +8,14 @@
     "description":"A guide telling the user how to solve this task.",
     "importance":"high"
   },
+  {
+    "label":"Keys",
+    "name":"keys",
+    "type":"text",
+    "maxLength":51,
+    "importance":"high",
+    "description": "<ul><li>You can add upto 26 keys.</li><li>Separate all the key texts with a comma.</li><li>If you don't want to customize the keyboard, leave it blank.</li><li>Atleast, add a minimum of 14 keys.</li></ul>"
+  },
    {
       "name":"categorySelectionList",
       "type":"list",
@@ -64,6 +72,7 @@
                         "name":"hintText",
                         "maxLength": 20,
                         "type":"text",
+                        "optional":false,
                         "description":"Input the hint here..."
                      }
                   ]
@@ -139,29 +148,6 @@
    "optional": true,
    "fields": [
      {
-       "name": "enableRetry",
-       "type": "boolean",
-       "label": "Enable \"Retry\"",
-       "importance": "low",
-       "default": true
-     },
-     {
-       "name": "enableSolutionsButton",
-       "type": "boolean",
-       "label": "Enable \"Show solution\" button",
-       "importance": "low",
-       "default": true
-     },
-     {
-       "name": "enableCheckButton",
-       "type": "boolean",
-       "label": "Enable \"Check\" button",
-       "widget": "none",
-       "importance": "low",
-       "default": true,
-       "optional": true
-     },
-     {
        "name": "showScorePoints",
        "type": "boolean",
        "label": "Show score points",
@@ -172,63 +158,27 @@
    ]
   },
   {
-    "label": "Text for \"Check\" button",
+    "label": "Text for \"Start\" button",
     "importance": "low",
-    "name": "checkAnswerButton",
+    "name": "startGame",
     "type": "text",
-    "default": "Check",
+    "default": "Start Game",
     "common": true
   },
   {
     "label": "Text for \"Retry\" button",
     "importance": "low",
-    "name": "tryAgainButton",
+    "name": "playAgain",
     "type": "text",
-    "default": "Retry",
+    "default": "Play Again",
     "common": true
   },
   {
-    "label": "Text for \"Show solution\" button",
+    "label": "Text for \"Hint\" button",
     "importance": "low",
-    "name": "showSolutionButton",
+    "name": "hintButton",
     "type": "text",
-    "default": "Show solution",
-    "common": true
-  },
-  {
-    "label": "Correct answer text",
-    "importance": "low",
-    "name": "correctAnswer",
-    "type": "text",
-    "default": "Correct!",
-    "description": "Text used to indicate that an answer is correct",
-    "common": true
-  },
-  {
-    "label": "Incorrect answer text",
-    "importance": "low",
-    "name": "incorrectAnswer",
-    "type": "text",
-    "default": "Incorrect!",
-    "description": "Text used to indicate that an answer is incorrect",
-    "common": true
-  },
-  {
-    "label": "Missed answer text",
-    "importance": "low",
-    "name": "missedAnswer",
-    "type": "text",
-    "default": "Missed!",
-    "description": "Text used to indicate that an answer is missing",
-    "common": true
-  },
-  {
-    "label": "Description for Display Solution",
-    "importance": "low",
-    "name": "displaySolutionDescription",
-    "type": "text",
-    "default": "Task is updated to contain the solution.",
-    "description": "This text tells the user that the tasks has been updated with the solution.",
+    "default": "Hint",
     "common": true
   },
   {
@@ -283,7 +233,7 @@
        "description": "Feedback text, variables available: @score and @total. Example: 'You got @score of @total possible points'"
      },
      {
-       "label": "Text for \"Start Game\" button",
+       "label": "Text for \"Start\" button",
        "importance": "low",
        "name": "startGame",
        "type": "text",

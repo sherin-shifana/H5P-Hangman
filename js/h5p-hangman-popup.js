@@ -7,7 +7,7 @@
    * @param {H5P.jQuery} $container
    */
   Hangman.Popup = function ($container) {
-    
+
     /**
     * @alias H5P.Hangman.Popup#
     */
