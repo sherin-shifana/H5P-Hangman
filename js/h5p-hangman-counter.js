@@ -7,38 +7,42 @@
   * @param {H5P.jQuery} $container
   */
   Hangman.Counter = function ($container) {
-    /** @alias H5P.Hangman.Counter# */
 
-    var self = this;
-    var current = parseInt($container.text());
-
+    /**
+    * @alias H5P.Hangman.Counter#
+    */
+    const that = this;
+    let current = parseInt($container.text());
 
     /**
     * @private
     */
-    var update = function () {
+    const update = function () {
       $container[0].innerText = current;
     };
+
     /**
     * Increment the counter.
     */
-    self.increment = function () {
+    that.increment = function () {
       current++;
       update();
     };
 
-    self.decrement = function () {
+    /**
+    * Decrement the counter.
+    */
+    that.decrement = function () {
       if (current > 0) {
         current--;
       }
       update();
     };
 
-    
     /**
     * Revert counter back to its natural state
     */
-    self.reset = function () {
+    that.reset = function () {
       current = 0;
       update();
     };

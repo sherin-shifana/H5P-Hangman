@@ -1,30 +1,41 @@
 (function ($,Hangman) {
 
+  /**
+   *To draw Hangman according to the wrong attempts
+   * @class H5P.Hangman.HangmanVector
+   * @param {Number} numParts
+   */
   Hangman.HangmanVector = function ( numParts) {
-
     this.numParts = parseInt(numParts);
     this.currentState = 10;
     this.canvasSize = 100;
-    // this.totalParts = 10;
   };
 
+  /**
+  * Append the canvas to the Hangman $container.
+  * @param {H5P.jQuery} $container
+  * @param {Number} cSize
+  */
   Hangman.HangmanVector.prototype.appendTo = function ($container, cSize) {
     this.canvasSize = cSize;
-
     this.$canvas = $('<canvas id="canvas" height="'+cSize+'px" width="'+cSize+'px"></canvas>').appendTo($container);
     this.prepareCanvas();
     this.drawFirst();
   };
 
+  /**
+  * Draw the next part of Hangman to be drawn
+  */
   Hangman.HangmanVector.prototype.drawNext = function () {
-
     this.draw();
     this.currentState--;
   };
 
+  /**
+  * Prepare the canvas for drawing Hangman by defining properties of canvas.
+  */
   Hangman.HangmanVector.prototype.prepareCanvas = function () {
     this.canvas = this.$canvas[0];
-    // this.canvas.height = this.canvas.width;
     this.height = this.canvas.height;
     this.width = this.canvas.width;
     this.unitHt = this.height / 6;
@@ -38,8 +49,10 @@
     this.pos = this.canvasSize - this.gap;
   };
 
+  /**
+  * Draw head of Hangman
+  */
   Hangman.HangmanVector.prototype.drawHead = function () {
-
     const centerX= this.canvasSize*0.5;
     const centerY= (this.gap*7)+this.radius;
     const context = this.canvas.getContext("2d");
@@ -50,6 +63,15 @@
     context.stroke();
   };
 
+  /**
+  * Draw parts of Hangman which are lines.
+  * @param {Number} pathFromX
+  * @param {Number} pathFromY
+  * @param {Number} pathToX
+  * @param {Number} pathToY
+  * @param color
+  * @param {Number} lineWidth
+  */
   Hangman.HangmanVector.prototype.drawLine = function (pathFromX, pathFromY, pathToX, pathToY, color, lineWidth) {
     const context = this.canvas.getContext('2d');
     context.strokeStyle = color;
@@ -61,10 +83,11 @@
     context.closePath();
   };
 
+  /**
+  * Draw Hangman according to the current state
+  */
   Hangman.HangmanVector.prototype.draw = function () {
-
     switch (this.currentState) {
-
       case 10:
       //frame1
         this.drawLine(this.gap, this.pos, this.pos , this.pos, "#ea622c", this.standWidth);
@@ -112,19 +135,24 @@
     }
   };
 
+  /**
+  * If the selected level is less then 10, then draw initial parts
+  */
   Hangman.HangmanVector.prototype.drawFirst = function () {
     this.currentState = 10;
     while (this.currentState > this.numParts) {
       this.drawNext();
     }
-
   };
-  Hangman.HangmanVector.prototype.redraw = function (attemptsLeft) {
 
+  /**
+  *
+  */
+  Hangman.HangmanVector.prototype.redraw = function (attemptsLeft) {
     while (this.currentState > attemptsLeft) {
       this.drawNext();
     }
-
   };
+
   return Hangman.HangmanVector;
 })(H5P.jQuery,H5P.Hangman);

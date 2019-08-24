@@ -41,38 +41,18 @@
 .h5p-hangman .content-wrapper select {
   display: inline-block;
   padding: 0.1em 0.4em 0.1em 0.4em;
-  min-width: 6em;
+  width: 6em;
   border: 1px solid black;
   font-weight: bold;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   background-color: white;
+  text-overflow: ellipsis;
 }
-
+.h5p-hangman .content-wrapper select:first-child option {
+  text-overflow: ellipsis;
+  overflow-style:scroll;
+}
 .h5p-hangman .content-wrapper select:first-child {
   margin-right: 1em;
-}
-
-.h5p-hangman .content-wrapper:before {
-  content: "\f0d7";
-  font-family: H5PFontAwesome4;
-  position: absolute;
-  top: 0.3em;
-  /*2+1*/
-  left: 4.5em;
-  /*6-1-0.4-0.1*/
-  pointer-events: none;
-}
-
-.h5p-hangman .content-wrapper:after {
-  content: "\f0d7";
-  font-family: H5PFontAwesome4;
-  position: absolute;
-  right: 0.6em;
-  /*4+2*/
-  top: 0.3em;
-  pointer-events: none;
 }
 
 .h5p-hangman .h5p-status {
@@ -126,14 +106,25 @@
   height: 2em;
   line-height: 2;
   margin: 0.1em;
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
 }
+
+.h5p-hangman .game-container .alphabet-container .h5p-letter:hover,
+.h5p-hangman .game-container .alphabet-container .h5p-letter:focus {
+  background: #008ae6;
+  border: 1px solid #008ae6;
+}
+
 
 .h5p-hangman .guess-container .guess {
   display: inline-block;
   margin: .1em;
   color: #006bb3;
-  font-size: 2em;
+  font-size: 1.2em;
+  border-bottom: 2px solid #006bb3;
+  min-width: 1em;
+  vertical-align: bottom;
+
 }
 
 .h5p-hangman .game-container .alphabet-container .h5p-letter-after-click {
@@ -142,6 +133,10 @@
   border: 1px solid #006bb3;
   color: #006bb3;
   font-weight: bold;
+}
+.h5p-hangman .game-container .alphabet-container .h5p-letter-after-click:focus,
+.h5p-hangman .game-container .alphabet-container .h5p-letter-after-click :hover {
+  background: white;
 }
 
 .h5p-hangman .hangman-container {
@@ -275,9 +270,9 @@
     font-size: 1em;
   }
 
-  .h5p-hangman .guess-container .guess {
+  /* .h5p-hangman .guess-container .guess {
     font-size: 1.2em;
-  }
+  } */
 
   .game-over-page>.result-div,
   .game-win-page>.result-div {
@@ -356,9 +351,9 @@
     font-size: 1em;
   }
 
-  .h5p-hangman .guess-container .guess {
+  /* .h5p-hangman .guess-container .guess {
     font-size: 2em;
-  }
+  } */
 
   .game-over-page>.result-div,
   .game-win-page>.result-div {
@@ -418,9 +413,9 @@
     font-size: 1em;
   }
 
-  .h5p-hangman .guess-container .guess {
+  /* .h5p-hangman .guess-container .guess {
     font-size: 2em;
-  }
+  } */
 
   .game-over-page>.result-div,
   .game-win-page>.result-div {
@@ -479,9 +474,9 @@
     font-size: 1.2em;
   }
 
-  .h5p-hangman .guess-container .guess {
+  /* .h5p-hangman .guess-container .guess {
     font-size: 2.5em;
-  }
+  } */
 
   .game-over-page>.result-div,
   .game-win-page>.result-div {
@@ -541,9 +536,9 @@
     font-size: 1.4em;
   }
 
-  .h5p-hangman .guess-container .guess {
+  /* .h5p-hangman .guess-container .guess {
     font-size: 3em;
-  }
+  } */
 
   .game-over-page>.result-div,
   .game-win-page>.result-div {
