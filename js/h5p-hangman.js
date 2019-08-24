@@ -117,11 +117,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     // assign levelchosen to attempts left
     that.attemptsLeft = that.levelChosen;
-    const alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+    that.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
 
     // Get each alphabet
-    alphabets.split(',').forEach(function (c) {
-      $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
+    that.alphabets.split(',').forEach(function (c) {
+      $('<div class="h5p-letter" id="letter_'+c+'">' + c + '</div>').appendTo(that.$alphabetContainer);
     });
 
     // assign chosen word to guesses
@@ -250,7 +250,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     // Set maximum score to the chosen word length
     that.maxScore = that.getMaxScore(this.chosenWord.word);
 
-    that.triggerXAPIScored(that.score, that.maxScore, 'answered');
+    // that.triggerXAPIScored(that.score, that.maxScore, 'answered');
 
     if (that.attemptsLeft === 0) {
       // If there is no attempts left to continue the game
@@ -276,12 +276,12 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     if (this.gameWon) {
       // If the answer is right
-      this.triggerXAPICompleted(this.score, this.maxScore, true);
+      // this.triggerXAPICompleted(this.score, this.maxScore, true);
       this.$container.addClass("game-win-page");
     }
     else {
       // If the answer is wrong or if game loses
-      this.triggerXAPIScored(this.score, this.maxScore, false);
+      // this.triggerXAPIScored(this.score, this.maxScore, false);
       this.$container.addClass("game-over-page");
     }
     this.createFinalScreenDomElements();
@@ -292,15 +292,86 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     this.$resultDiv.appendTo(this.$container);
     this.$playAgain.appendTo(this.$container);
 
+    const xAPIEvent = this.createXAPIEventTemplate('answered');
+    this.addQuestionToXAPI(xAPIEvent);
+    this.addResponseToXAPI(xAPIEvent);
+    this.trigger(xAPIEvent);
+
     this.trigger('resize');
   };
 
   /**
   *
   */
-  H5P.externalDispatcher.on('xAPI', function (event) {
-    console.log(event.data.statement.verb);
-  });
+
+  /**
+    * addQuestionToXAPI - Add the question to the definition part of an xAPIEvent
+    *
+    * @param {H5P.XAPIEvent} xAPIEvent
+    */
+  this.addQuestionToXAPI = function (xAPIEvent) {
+    const definition = xAPIEvent.getVerifiedStatementValue(
+      ['object', 'definition']
+    );
+    definition.description = {
+      'en-US': this.options.l10n.taskDescription
+    };
+    definition.type =
+       'http://adlnet.gov/expapi/activities/cmi.interaction';
+    definition.interactionType = 'choices';
+    definition.correctResponsesPattern = [];
+    definition.choices = [];
+
+
+    this.alphabets.split(',').forEach(function (c,index) {
+      definition.choices[index] = {
+        'id': 'letter_' + c+ '',
+        'description': {
+          'en-US':  'letter '+c
+        }
+      }
+
+
+    });
+
+    const setWord=[];
+    const questionWord=this.chosenWord.word;
+    for (let i = 0; i < questionWord.length; i++) {
+      if (!setWord.includes(questionWord[i]) ) {
+        setWord.push(questionWord[i]);
+      }
+
+    }
+
+    setWord.forEach(function (letter,index) {
+      if (index==0) {
+        definition.correctResponsesPattern[0] = 'letter_' + letter + '[,]';
+      }
+      else if (index === setWord.length-1) {
+        definition.correctResponsesPattern[0] += 'letter_' + letter;
+      }
+      else {
+        definition.correctResponsesPattern[0] += 'letter_' + letter+ '[,]';
+      }
+    });
+};
+
+
+  /**
+     * getXAPIData - Get xAPI data.
+     *
+     * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+     * @returns {Object} xApi data statement
+     */
+  this.getXAPIData = function () {
+    const xAPIEvent = this.createXAPIEventTemplate('answered');
+    this.addQuestionToXAPI(xAPIEvent);
+    this.addResponseToXAPI(xAPIEvent);
+    return {
+      statement: xAPIEvent.data.statement
+    };
+  };
+
 
   /**
   *
