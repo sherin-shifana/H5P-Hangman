@@ -1,59 +1,72 @@
 
-
 .h5p-hangman {
   font-family: sans-serif;
   margin: 0 auto;
   height: auto;
+  max-width: 1160px;
   min-height: 400px;
   min-width: 298px;
   overflow: auto !important;
   text-align: center;
   color: black;
-}
-
-.first-screen {
-  background-image: url(../images/background.jpg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-origin: content-box;
-}
-
-.second-screen {
-  max-width: 1160px;
-  margin: 0 auto;
+  border: 1px solid #eeeeee;
 }
 
 .h5p-hangman .content-wrapper {
-  position: absolute;
-  top: 40%;
-  left: 40%;
+  margin-top: 2em;
   padding: 0.2em;
-  display: block;
+  display: inline-block;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.h5p-hangman .content-wrapper h1{
+  color: orange;
+  text-transform: uppercase;
+
+}
+
+.h5p-hangman .content-wrapper .image-icon{
+    height:100px;
+    width: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: content-box;
+}
+
+.h5p-hangman .content-wrapper .image-lost{
+    background-image: url(../images/lost.svg);
+}
+
+.h5p-hangman .content-wrapper .image-won{
+    background-image: url(../images/win.svg);
 }
 
 .h5p-hangman .content-wrapper .button-container {
   position: relative;
-  margin-top: 10%;
+  margin-top: 2em;
   font-size: 0.8em;
 }
 
+.h5p-hangman .select-container{
+  display: inline-block;
+}
+
+
+
 .h5p-hangman .content-wrapper select {
   display: inline-block;
-  padding: 0.1em 0.4em 0.1em 0.4em;
-  width: 6em;
   border: 1px solid black;
   font-weight: bold;
   background-color: white;
   text-overflow: ellipsis;
+  margin: 0.2em;
 }
-.h5p-hangman .content-wrapper select:first-child option {
-  text-overflow: ellipsis;
-  overflow-style:scroll;
-}
-.h5p-hangman .content-wrapper select:first-child {
-  margin-right: 1em;
-}
+
+/* second screen */
 
 .h5p-hangman .h5p-status {
   display: inline;
@@ -216,132 +229,50 @@
   color: #888;
 }
 
-.game-over-page {
-  background-image: url(../images/gameover.jpg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding-left: 10%;
-}
-
-.game-win-page {
-  background-image: url(../images/gamewin.jpg);
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding-left: 10%;
-}
+/* final section */
 
 .game-over-page>.result-div,
 .game-win-page>.result-div {
-  margin-top: 12em;
-  margin-left: 45%;
+
   margin-bottom: 1em;
   padding: .5em;
-  border: 1px solid grey;
-  border-radius: .5em;
-  width: 15em;
+  display: inline-block;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.game-win-page>.result-div>.total-time-spent>span,
-.game-over-page>.result-div>.total-time-spent>span {
-  margin-left: 3em;
+.game-win-page p,
+.game-over-page p {
+  margin:0.2em auto;
 }
 
-.game-win-page>.result-div>.total-attempts-made>span,
-.game-over-page>.result-div>.total-attempts-made>span {
-  margin-left: 5em;
+
+.game-over-page .retry-button,
+.game-win-page  .retry-button{
+  display:block;
+  margin: 0.4em auto;
 }
 
-.game-over-page>.retry-button,
-.game-win-page>.retry-button {
-  margin-left: 10em !important;
-}
 
-@media only screen and (min-width:289px) {
-  .h5p-hangman .content-wrapper {
-    top: 40%;
-    left: 30%;
-  }
-  .h5p-hangman .game-container .alphabet-container .h5p-letter {
-    width: 1.5em;
-    height: 1.5em;
-    line-height: 1.5;
-    font-size: 1em;
-  }
-
-  /* .h5p-hangman .guess-container .guess {
-    font-size: 1.2em;
-  } */
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 18em;
-    margin-left: 30%;
-    margin-bottom: 1em;
-    padding: .5em;
-    width: 55%;
-    font-size: 0.7em;
-    line-height: 0.7em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 10% !important;
-    font-size: 0.8em;
-  }
-}
-
-@media only screen and (min-width:480px) {
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 16em;
-    margin-left: 35%;
-    margin-bottom: 1em;
-    padding: .5em;
-    width: 40%;
-    font-size: 0.8em;
-    line-height: 0.8em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 10% !important;
-  }
-}
+/* responsive part */
 
 @media only screen and (min-width:576px) {
-
-  .h5p-hangman .content-wrapper {
-    top: 35%;
-    left: 40%;
+  .content-wrapper .image-icon{
+    height:200px;
   }
 
-  .h5p-hangman .content-wrapper select {
-    min-width: 9em;
-    padding: 0.2em 0.8em 0.2em 0.8em;
+  .h5p-hangman .content-wrapper select{
+    height:2.5em;
+    line-height:2.5em;
+    padding: 0.2em;
   }
-
   .h5p-hangman .content-wrapper select:first-child {
     margin-right: 2em;
   }
 
-  .h5p-hangman .content-wrapper:before {
-    left: 7em;
-    top: 0.3em;
-    /*2+2*/
-    /*9-2-0.8-0.2*/
-  }
-
-  .h5p-hangman .content-wrapper:after {
-    top: 0.3em;
-    right: 1em;
-  }
-
   .h5p-hangman .content-wrapper .button-container {
     font-size: 1em;
-    margin-top: 15%;
+    margin-top: 2em;
   }
 
   .h5p-hangman .game-container .alphabet-container .h5p-letter {
@@ -350,210 +281,54 @@
     line-height: 2;
     font-size: 1em;
   }
-
-  /* .h5p-hangman .guess-container .guess {
-    font-size: 2em;
-  } */
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 14em;
-    margin-left: 35%;
-    margin-bottom: 1em;
-    padding: .5em;
-    width: 40%;
-    font-size: 0.9em;
-    line-height: 0.9em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 10% !important;
-    font-size: 1em;
-  }
 }
 
 @media only screen and (min-width:768px) {
-
-  .h5p-hangman .content-wrapper {
-    top: 30%;
-    left: 40%;
+  .content-wrapper .image-icon{
+    height:250px;
   }
-
-  .h5p-hangman .content-wrapper select {
-    min-width: 12em;
-    padding: 0.4em 1.6em 0.4em 1.6em;
+  .h5p-hangman .content-wrapper select{
+    height:3em;
+    line-height:3em;
+    padding: 0.4em 0.8em;
   }
-
   .h5p-hangman .content-wrapper select:first-child {
-    margin-right: 3em;
+    margin-right: 4em;
   }
-
-  .h5p-hangman .content-wrapper:before {
-    left: 9.8em;
-    top: 0.4em;
-    /*2+2*/
-    /*9-2-0.8-0.2*/
+  .h5p-hangman .guess-container .guess {
+    font-size: 2em;
   }
-
-  .h5p-hangman .content-wrapper:after {
-    top: 0.4em;
-    right: 1em;
-  }
-
   .h5p-hangman .content-wrapper .button-container {
-    font-size: 1em;
-    margin-top: 15%;
+    margin-top: 3em;
   }
-
   .h5p-hangman .game-container .alphabet-container .h5p-letter {
     width: 3em;
     height: 3em;
     line-height: 3;
     font-size: 1em;
   }
-
-  /* .h5p-hangman .guess-container .guess {
-    font-size: 2em;
-  } */
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 12em;
-    margin-left: 35%;
-    margin-bottom: 1em;
-    padding: .5em;
-    width: 35%;
-    font-size: 1em;
-    line-height: 1em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 5% !important;
-  }
 }
+
 
 @media only screen and (min-width:992px) {
-
-  .h5p-hangman .content-wrapper {
-    top: 25%;
-    left: 45%;
+  .content-wrapper .image-icon{
+    height:300px;
   }
-
-  .h5p-hangman .content-wrapper select {
-    min-width: 12em;
-    padding: 0.6em 2.4em 0.6em 2.4em;
-    font-size: 1em;
+  .h5p-hangman .content-wrapper select{
+    height: 3em;
+    line-height:3.5em;
+    padding: 0.4em 0.8em;
   }
-
   .h5p-hangman .content-wrapper select:first-child {
     margin-right: 4em;
   }
-
-  .h5p-hangman .content-wrapper:before {
-    font-size: 1.2em;
-    left: 8.6em;
-    top: 0.5em;
-    /*2+2*/
-    /*9-2-0.8-0.2*/
-  }
-
-  .h5p-hangman .content-wrapper:after {
-    font-size: 1.2em;
-    top: 0.5em;
-    right: 1.2em;
-  }
-
   .h5p-hangman .content-wrapper .button-container {
-    font-size: 1em;
-    margin-top: 15%;
+    margin-top: 3em;
   }
-
   .h5p-hangman .game-container .alphabet-container .h5p-letter {
+    width: 3em;
+    height: 3em;
+    line-height: 3;
     font-size: 1.2em;
-  }
-
-  /* .h5p-hangman .guess-container .guess {
-    font-size: 2.5em;
-  } */
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 12em;
-    margin-left: 35%;
-    margin-bottom: 1.5em;
-    padding: .5em;
-    width: 35%;
-    font-size: 1.1em;
-    line-height: 1.1em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 5% !important;
-    font-size: 1.1em;
-  }
-}
-
-@media only screen and (min-width:1200px) {
-
-  .h5p-hangman .content-wrapper {
-    top: 25%;
-    left: 45%;
-  }
-
-  .h5p-hangman .content-wrapper select {
-    min-width: 15em;
-    padding: 0.8em 3.2em 0.8em 3.2em;
-    font-size: 1em;
-  }
-
-  .h5p-hangman .content-wrapper select:first-child {
-    margin-right: 4em;
-  }
-
-  .h5p-hangman .content-wrapper:before {
-    font-size: 1.2em;
-    left: 11em;
-    top: 0.6em;
-    /*2+2*/
-    /*9-2-0.8-0.2*/
-  }
-
-  .h5p-hangman .content-wrapper:after {
-    font-size: 1.2em;
-    top: 0.6em;
-    right: 1.4em;
-  }
-
-  .h5p-hangman .content-wrapper .button-container {
-    font-size: 1.2em;
-    margin-top: 15%;
-  }
-
-  .h5p-hangman .game-container .alphabet-container .h5p-letter {
-    font-size: 1.4em;
-  }
-
-  /* .h5p-hangman .guess-container .guess {
-    font-size: 3em;
-  } */
-
-  .game-over-page>.result-div,
-  .game-win-page>.result-div {
-    margin-top: 12em;
-    margin-left: 35%;
-    margin-bottom: 1.5em;
-    padding: .5em;
-    width: 35%;
-    font-size: 1.1em;
-    line-height: 1.1em;
-  }
-
-  .game-over-page>.retry-button,
-  .game-win-page>.retry-button {
-    margin-left: 5% !important;
-    font-size: 1.1em;
   }
 }
