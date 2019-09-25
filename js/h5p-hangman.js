@@ -1,18 +1,33 @@
 H5P.Hangman = (function ($, UI, EventDispatcher) {
 
   /**
-  * Hangman Constructor
-  *
-  * @class H5P.Hangman
-  * @extends H5P.EventDispatcher
-  * @param {Object} options
-  * @param {Number} id
-  */
+   * Hangman Constructor
+   *
+   * @class H5P.Hangman
+   * @extends H5P.EventDispatcher
+   * @param {Object} options
+   * @param {Number} id
+   */
   function Hangman(options, id) {
     // Initialize event inheritance
     EventDispatcher.call(this);
     const that = this;
-    that.options = options;
+    that.options = $.extend(true, {
+      taskDescription: "Save the man from hanging!",
+      behaviour: {
+        "showCorrectGuesses": true
+      },
+      l10n: {
+        "chosenCategory": "The chosen category is",
+        "attemptsLeft": "Attempts Left",
+        "timeSpent": "Time Spent",
+        "score": "You got @score of @total points",
+        "hangmanTitle": "Hangman",
+        "successMsg": "You Won!",
+        "lostMsg": "You Lost!"
+      }
+    }, options);
+
     // Keep provided id.
     that.id = id;
     that.isInline = true;
@@ -21,15 +36,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.createStartScreenDomElements();
   }
   /**
-  * Register start screen DOM elements
-  */
+   * Register start screen DOM elements
+   */
   Hangman.prototype.createStartScreenDomElements = function () {
     const that = this;
+
     that.$categorySelect = $('<select class="category" placeholder="Chose Category"></select>');
     that.categories = that.options.categorySelectionList.map(function (catObj) {
       return catObj.categoryText;
     });
-
     that.categories.forEach(function (category) {
       $('<option class="option" value="' + category + '">' + category + '</option>').appendTo(that.$categorySelect);
     });
@@ -44,148 +59,149 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-  * Register game screen DOM elements
-  */
+   * Register game screen DOM elements
+   */
   Hangman.prototype.createGameScreenDomElements = function () {
     const that = this;
-    this.$status = $('<div class="h5p-status">' +
+
+    that.$status = $('<div class="h5p-status">' +
       '<div class="h5p-time-spent"><time role="timer" datetime="PT00H00M0S">00:00:00</time></div>' +
-      '<div class = "h5p-attempts-left"> ' + this.options.l10n.attemptsLeft + ' : <span>' + this.levelChosen + '</span></div>' +
+      '<div class = "h5p-attempts-left"> ' + that.options.l10n.attemptsLeft + ': <span>' + that.levelChosen + '</span></div>' +
       '</div>');
 
-    this.timer = new Hangman.Timer(this.$status.find('time')[0]);
-    this.counter = new Hangman.Counter(this.$status.find('span'));
-    this.hangman = new Hangman.HangmanVector(this.levelChosen);
-    this.popup = new Hangman.Popup(this.$container);
+    that.timer = new Hangman.Timer(that.$status.find('time')[0]);
+    that.counter = new Hangman.Counter(that.$status.find('span'));
+    that.hangman = new Hangman.HangmanVector(that.levelChosen);
+    that.popup = new Hangman.Popup(that.$container);
 
-    this.$taskDescription = $('<div class="task-description">' + this.options.l10n.taskDescription + '</div>');
-    this.$alphabetContainer = $('<div class="alphabet-container"></div>');
-    this.$selectedCategory = $('<p>The chosen category is <span>' + that.categoryChosen + '</span></p>');
-    this.$guessContainer = $('<div class="guess-container"></div>');
+    that.$taskDescription = $('<div class="task-description">' + that.options.taskDescription + '</div>');
+    that.$alphabetContainer = $('<div class="alphabet-container"></div>');
+    that.$selectedCategory = $('<p>'+that.options.l10n.chosenCategory+':<span>' + that.categoryChosen + '</span></p>');
+    that.$guessContainer = $('<div class="guess-container"></div>');
 
-    this.$hangmanContainer = $('<div class="hangman-container"></div>');
-    this.$buttonContainer = $('<div class="button-container"></div>');
+    that.$hangmanContainer = $('<div class="hangman-container"></div>');
+    that.$buttonContainer = $('<div class="button-container"></div>');
 
-    this.$leftContainer = $('<div class="left-container"></div>');
-    this.$rightContainer = $('<div class="right-container"></div>');
+    that.$leftContainer = $('<div class="left-container"></div>');
+    that.$rightContainer = $('<div class="right-container"></div>');
 
-    this.$topContainer = $('<div class="top-container"></div>');
-    this.$gameContainer = $('<div class="game-container"></div>');
+    that.$topContainer = $('<div class="top-container"></div>');
+    that.$gameContainer = $('<div class="game-container"></div>');
 
-    this.$mainContainer = $('<div class="main-container"></div>');
+    that.$mainContainer = $('<div class="main-container"></div>');
 
     // Play again button
     const callBackFunction = that.resetTask.bind(this);
-    this.$playAgainButton = UI.createButton({
+    that.$playAgainButton = UI.createButton({
       'class': 'retry-button button',
       'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.playAgain,
       click: callBackFunction
-    }).appendTo(this.$buttonContainer);
+    }).appendTo(that.$buttonContainer);
 
     // Hint button
     if (that.chosenWord.hint) {
-      this.$hintButton = UI.createButton({
-        'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.hint,
+      that.$hintButton = UI.createButton({
+        'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + that.options.l10n.hint,
         'class': 'hint-button button',
         click: function () {
           that.popup.show(that.chosenWord.hint);
         }
-      }).appendTo(this.$buttonContainer);
+      }).appendTo(that.$buttonContainer);
     }
 
   };
 
   /**
-  * Game starts when the start game button clicked
-  */
+   * Game starts when the start game button clicked
+   */
   Hangman.prototype.startGame = function () {
     const that = this;
     that.isGameStarted = true;
-    this.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
-    this.keys = this.options.keys;
-    this.score = 0;
-    this.clickedLetters = [];
+    that.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
+    that.keys = that.options.keys;
+    that.score = 0;
+    that.clickedLetters = [];
 
+    //get a radomised word from the chosen category
     that.getWord();
-    this.$container.empty().removeClass('first-screen');
-    this.createGameScreenDomElements();
-    this.$container.addClass('second-screen');
-    this.$status.appendTo(this.$topContainer);
+    that.$container.empty().removeClass('first-screen').addClass('second-screen');
+    that.createGameScreenDomElements();
+    that.$status.appendTo(that.$topContainer);
 
     // assign levelchosen to attempts left
     that.attemptsLeft = that.levelChosen;
 
     // Get each alphabet
-    if (this.keys.length>=27 ) {
-      this.keys.split(',').forEach(function (c) {
-        $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
-      });
-    }
-    else {
-      this.alphabets.split(',').forEach(function (c) {
-        $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
-      });
-    }
-
+    this.keys = this.options.keys.replace(/[\s,.:'"!@#$%^&*()-_=+\\|]/g, '');
+    that.alphabets.split(',').forEach(function (c) {
+      $('<div class="h5p-letter" id="letter_' + c + '">' + c + '</div>').appendTo(that.$alphabetContainer);
+    });
     // assign chosen word to guesses
     const guesses = that.chosenWord.word;
     for (let i = 0; i < guesses.length; i++) {
-      that.$guessContainer.append('<div class="guess"></div>');
+      let $guess = $('<div class="guess"></div>');
+      if (guesses[i] === ' ') {
+        $guess.removeClass('guess');
+        $guess.addClass('guess-whitespace');
+      }
+      that.$guessContainer.append($guess);
     }
 
-    this.$taskDescription.appendTo(this.$topContainer);
-    this.$alphabetContainer.appendTo(this.$leftContainer);
+    that.$taskDescription.appendTo(that.$topContainer);
+    that.$alphabetContainer.appendTo(that.$leftContainer);
 
-    this.$selectedCategory.appendTo(this.$leftContainer);
-    this.$guessContainer.appendTo(this.$leftContainer);
+    that.$selectedCategory.appendTo(that.$leftContainer);
+    that.$guessContainer.appendTo(that.$leftContainer);
 
-    this.hangman.appendTo(this.$hangmanContainer, true);
-    this.$hangmanContainer.appendTo(this.$rightContainer);
-    this.$buttonContainer.appendTo(this.$rightContainer);
+    that.hangman.appendTo(that.$hangmanContainer, true);
+    that.$hangmanContainer.appendTo(that.$rightContainer);
+    that.$buttonContainer.appendTo(that.$rightContainer);
 
-    this.$leftContainer.appendTo(this.$gameContainer);
-    this.$rightContainer.appendTo(this.$gameContainer);
+    that.$leftContainer.appendTo(that.$gameContainer);
+    that.$rightContainer.appendTo(that.$gameContainer);
 
-    this.$topContainer.appendTo(this.$container);
-    this.$gameContainer.appendTo(this.$container);
+    that.$topContainer.appendTo(that.$container);
+    that.$gameContainer.appendTo(that.$container);
 
-    this.$taskDescription.attr('tabindex', 0).focus();
+    that.$taskDescription.attr('tabindex', 0).focus();
 
-    this.on('changeHangmanContainer', function () {
-      this.$hangmanContainer.empty();
-      if (this.isInline) {
-        this.hangman.appendTo(this.$hangmanContainer, this.canvasSize);
-        this.changeToInlineMode();
+    that.on('changeHangmanContainer', function () {
+      that.$hangmanContainer.empty();
+      if (that.isInline) {
+        that.hangman.appendTo(that.$hangmanContainer, that.canvasSize);
+        that.changeToInlineMode();
       }
       else {
-        this.hangman.appendTo(this.$hangmanContainer, this.canvasSize);
-        this.changeToBlockMode();
+        that.hangman.appendTo(that.$hangmanContainer, that.canvasSize);
+        that.changeToBlockMode();
       }
 
-      this.hangman.redraw(this.attemptsLeft);
-      this.$container.css({
+      that.hangman.redraw(that.attemptsLeft);
+      that.$container.css({
         'height': 'auto'
       });
     });
 
-    that.$alphabetContainer.find('.h5p-letter').each(function () {
-      $(this).keypress(function (event) {
-        alert( String.fromCharCode(event.which)==$(this).innerText);
-      });
-
-    });
 
     // Let the first letter to be focused when clicking tab
     let $current = that.$alphabetContainer.find('.h5p-letter').first();
-    that.$temp = $('<div></div>').appendTo(this.$container);
+    that.$temp = $('<div></div>').appendTo(that.$container);
     $current.attr("tabindex", 0);
 
     // Clicking an alphabet or guessing a letter
     that.$alphabetContainer.find('.h5p-letter').click(function () {
-
       that.afterLetterClick($(this));
     })
       .keydown(function (event) {
+        //check if it is a character
+        let inp = String.fromCharCode(event.keyCode);
+        if (/[a-zA-Z]/.test(inp)) {
+          //find the element and if it is not already clicked, triggers
+          const $element = that.$alphabetContainer.find('#letter_' + inp);
+          if ($element && !$element.hasClass('h5p-letter-after-click')) {
+            that.afterLetterClick($element);
+          }
+        }
         switch (event.which) {
           case 13: // Enter
           case 32: // Space
@@ -212,6 +228,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
             $current = $(this).next();
             $current.attr('tabindex', 0).focus();
             break;
+
         }
       });
     that.trigger('resize');
@@ -220,33 +237,33 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
 
   /**
-  * If Hangman is inline, remove inline class
-  */
+   * If Hangman is inline, remove inline class
+   */
   Hangman.prototype.changeToInlineMode = function () {
     this.$container.find('.left-container').removeClass('inline');
     this.$container.find('.right-container').removeClass('inline');
   };
 
   /**
-  * If Hangman is not inline, make it inline
-  */
+   * If Hangman is not inline, make it inline
+   */
   Hangman.prototype.changeToBlockMode = function () {
     this.$container.find('.left-container').addClass('inline');
     this.$container.find('.right-container').addClass('inline');
   };
 
   /**
-  * After clicking an alphabet
-  * @param {H5P.jQuery} $letter
-  */
+   * After clicking an alphabet
+   * @param {H5P.jQuery} $letter
+   */
   Hangman.prototype.afterLetterClick = function ($letter) {
     const that = this;
     that.timer.play();
     $letter.addClass("h5p-letter-after-click");
-    const AriaLabel = "Clicked letter "+ $letter.text();
-    that.$temp.attr('tabindex',0).focus();
-    that.$temp.attr('tabindex',-1);
-    $letter.attr('tabindex',0).focus();
+    const AriaLabel = "Clicked letter " + $letter.text();
+    that.$temp.attr('tabindex', 0).focus();
+    that.$temp.attr('tabindex', -1);
+    $letter.attr('tabindex', 0).focus();
     $letter.attr('aria-label', AriaLabel);
 
     const foundAt = that.checkGuess($letter.text());
@@ -267,7 +284,14 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }
 
     // Set maximum score to the chosen word length
-    that.maxScore = that.chosenWord.word.length;
+    this.spaceCount = 0;
+    for (let i=0; i<that.chosenWord.word.length; i++) {
+      if (that.chosenWord.word[i] === ' ') {
+        this.spaceCount++;
+      }
+    }
+
+    that.maxScore = that.chosenWord.word.length - this.spaceCount;
 
     if (that.attemptsLeft === 0) {
       // If there is no attempts left to continue the game
@@ -284,8 +308,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-  * Show the final screen when game is finished
-  */
+   * Show the final screen when game is finished
+   */
   Hangman.prototype.showFinalScreen = function () {
     const that = this;
     that.$container.empty();
@@ -293,82 +317,131 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.getAnswerGiven();
 
     if (that.gameWon) {
+
       // If the answer is right
-      that.$container.addClass("game-win-page");
+      // that.triggerXAPICompleted(that.score, that.maxScore, true);
+      const $wrapper = $('<div/>', {
+        'class': 'content-wrapper'
+      });
+      $('<div/>', {
+        'class': 'image-icon image-won'
+      }).appendTo($wrapper);
+
+      $('<h1 tabindex="0"> ' + that.options.l10n.successMsg + ' </h1>').appendTo($wrapper);
+      // TODO: translatable string
+
+      $wrapper.appendTo(that.$container);
+      that.$container.removeClass("second-screen").addClass("game-over-page");
     }
     else {
       // If the answer is wrong or if game loses
-      that.$container.addClass("game-over-page");
+      // that.triggerXAPIScored(that.score, that.maxScore, false);
+      const $wrapper = $('<div/>', {
+        'class': 'content-wrapper'
+      });
+
+      $('<div/>', {
+        'class': 'image-icon image-lost'
+      }).appendTo($wrapper);
+
+      $('<h1 tabindex="0"> ' + that.options.l10n.lostMsg + ' </h1>').appendTo($wrapper);
+      $wrapper.appendTo(that.$container);
+
+      that.$container.removeClass("second-screen").addClass("game-over-page");
     }
     that.createFinalScreenDomElements();
-
     that.$totalTimeSpent.appendTo(that.$resultDiv);
     that.$attemptsLeft.appendTo(that.$resultDiv);
-    that.$progressBar.appendTo(that.$resultDiv);
+
+    if (that.options.behaviour.showCorrectGuesses) {
+      that.$counter.find('.h5p-counter').html(that.score);
+      that.$counter.appendTo(that.$resultDiv);
+      that.$progressBar.appendTo(that.$resultDiv);
+    }
+
+
+    that.$playAgain.appendTo(that.$resultDiv);
     that.$resultDiv.appendTo(that.$container);
-    that.$playAgain.appendTo(that.$container);
 
-    const xAPIEvent = this.createXAPIEventTemplate('answered');
-    this.addQuestionToXAPI(xAPIEvent);
-    this.addResponseToXAPI(xAPIEvent);
-    this.trigger(xAPIEvent);
 
-    this.trigger('resize');
+    const xAPIEvent = that.createXAPIEventTemplate('answered');
+    that.addQuestionToXAPI(xAPIEvent);
+    that.addResponseToXAPI(xAPIEvent);
+    that.trigger(xAPIEvent);
+    that.trigger('resize');
   };
 
+
   /**
-  * addQuestionToXAPI - Add the question to the definition part of an xAPIEvent
-  * @param {H5P.XAPIEvent} xAPIEvent
-  */
+   * addQuestionToXAPI - Add the question to the definition part of an xAPIEvent
+   *
+   * @param {H5P.XAPIEvent} xAPIEvent
+   */
   Hangman.prototype.addQuestionToXAPI = function (xAPIEvent) {
+
     const definition = xAPIEvent.getVerifiedStatementValue(
       ['object', 'definition']
     );
     definition.description = {
-      'en-US': this.options.l10n.taskDescription
+      'en-US': this.options.taskDescription
     };
     definition.type =
-    'http://adlnet.gov/expapi/activities/cmi.interaction';
-    definition.interactionType = 'choice';
+      'http://adlnet.gov/expapi/activities/cmi.interaction';
+    definition.interactionType = 'choices';
     definition.correctResponsesPattern = [];
     definition.choices = [];
-
-    this.alphabets.split(',').forEach(function (c,index) {
+    this.alphabets.split(',').forEach(function (c, index) {
       definition.choices[index] = {
-        'id': 'letter_' + c+ '',
+        'id': 'letter_' + c + '',
         'description': {
-          'en-US': 'letter '+c
+          'en-US': 'letter ' + c
         }
       };
     });
 
     const setWord = [];
-    let questionWord = this.chosenWord.word;
-    questionWord = questionWord.toUpperCase();
+    const questionWord = this.chosenWord.word;
     for (let i = 0; i < questionWord.length; i++) {
-      if (!setWord.includes(questionWord[i]) ) {
+      if (!setWord.includes(questionWord[i])) {
         setWord.push(questionWord[i]);
       }
     }
 
-    setWord.forEach(function (letter,index) {
-      if (index==0) {
+    setWord.forEach(function (letter, index) {
+      if (index == 0) {
         definition.correctResponsesPattern[0] = 'letter_' + letter + '[,]';
       }
-      else if (index === setWord.length-1) {
+      else if (index === setWord.length - 1) {
         definition.correctResponsesPattern[0] += 'letter_' + letter;
       }
       else {
-        definition.correctResponsesPattern[0] += 'letter_' + letter+ '[,]';
+        definition.correctResponsesPattern[0] += 'letter_' + letter + '[,]';
       }
     });
   };
 
+
   /**
-  * Add the response part to an xAPI event.
-  *
-  * @param {H5P.XAPIEvent} xAPIEvent
-  */
+   * getXAPIData - Get xAPI data.
+   *
+   * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+   * @returns {Object} xApi data statement
+   */
+  Hangman.prototype.getXAPIData = function () {
+    const xAPIEvent = this.createXAPIEventTemplate('answered');
+    this.addQuestionToXAPI(xAPIEvent);
+    this.addResponseToXAPI(xAPIEvent);
+    return {
+      statement: xAPIEvent.data.statement
+    };
+  };
+
+
+  /**
+   * Add the response part to an xAPI event.
+   *
+   * @param {H5P.XAPIEvent} xAPIEvent
+   */
   Hangman.prototype.addResponseToXAPI = function (xAPIEvent) {
     const maxScore = this.getMaxScore();
     const score = this.getScore();
@@ -387,11 +460,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-    * getXAPIData - Get xAPI data.
-    *
-    * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
-    * @returns {Object} xApi data statement
-    */
+   * getXAPIData - Get xAPI data.
+   *
+   * @see contract at {@link https://h5p.org/documentation/developers/contracts#guides-header-6}
+   * @returns {Object} xApi data statement
+   */
   Hangman.prototype.getXAPIData = function () {
     const xAPIEvent = this.createXAPIEventTemplate('answered');
     this.addQuestionToXAPI(xAPIEvent);
@@ -402,29 +475,42 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-  * Create final screen DOM elements
-  */
+   * Create final screen DOM elements
+   */
   Hangman.prototype.createFinalScreenDomElements = function () {
     const that = this;
-    this.$resultDiv = $('<div class="result-div"></div>');
-    this.$totalTimeSpent = $('<p class="total-time-spent">Time spent ' + '<span>' + this.$status.find('time')[0].innerHTML + '</span></p>');
-    this.$attemptsLeft = $('<p class="total-attempts-made">Attempts left  ' + '<span>' + this.attemptsLeft + '</span></p>');
+    that.$resultDiv = $('<div class="result-div"></div>');
+    that.$totalTimeSpent = $('<p class="total-time-spent" tabindex="0">' + that.options.l10n.timeSpent + ':<span>' + that.$status.find('time')[0].innerHTML + '</span></p>');
+    that.$attemptsLeft = $('<p class="total-attempts-made" tabindex="0">' + that.options.l10n.attemptsLeft + '<span>' + that.attemptsLeft + '</span></p>');
 
     // Create progress bar
-    this.$progressBar = UI.createScoreBar(that.maxScore);
+    if (that.options.behaviour.showCorrectGuesses) {
+
+      const counterText = that.options.l10n.score
+        .replace('@total', '<span>' + that.getMaxScore() + '</span>')
+        .replace('@score', '<span class="h5p-counter" ><strong>0</strong></span>');
+
+      that.$counter = $('<div/>', {
+        class: 'counter-status',
+        tabindex: 0,
+        html: '<div role="term"><span role="definition">' + counterText + '</span></div>'
+      });
+
+    }
+    that.$progressBar = UI.createScoreBar(that.maxScore);
     // Set score to the count of correct letter clicked
-    this.$progressBar.setScore(that.score);
-    const callBackFunction = that.resetTask.bind(this);
-    this.$playAgain = UI.createButton({
+    that.$progressBar.setScore(that.score);
+    const callBackFunction = that.resetTask.bind(that);
+    that.$playAgain = UI.createButton({
       'class': 'retry-button button',
-      'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.playAgain,
+      'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + that.options.l10n.playAgain,
       click: callBackFunction
     });
   };
 
   /**
-  * Reset all the variables container after clicking play again button
-  */
+   * Reset all the variables container after clicking play again button
+   */
   Hangman.prototype.resetTask = function () {
     const that = this;
     that.isGameStarted = false;
@@ -432,18 +518,18 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.score = 0;
     that.isInline = true;
     that.canvasSize = 0;
-    that.$container.empty().removeClass('game-win-page').removeClass('game-over-page');
+    that.$container.empty().removeClass('game-win-page').removeClass('game-over-page').removeClass('second-screen');
     that.attach(that.$container);
   };
 
   /**
-  * Check if the guessed letter is correct or not
-  * @param {string} letter
-  */
+   * Check if the guessed letter is correct or not
+   * @param {string} letter
+   */
   Hangman.prototype.checkGuess = function (letter) {
     const that = this;
     const foundAt = [];
-    const currentWord = that.chosenWord.word.toUpperCase();
+    const currentWord = that.chosenWord.word.toUpperCase().replace(/\s/g,'');
     for (let i = 0; i < currentWord.length; i++) {
       if (currentWord[i] === letter) {
         foundAt.push(i);
@@ -453,49 +539,50 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   };
 
   /**
-  * Get the answer given
-  */
+   * Get the answer given
+   */
   Hangman.prototype.getAnswerGiven = function () {
     const that = this;
-    that.isCorrect = (that.gameWon) ? true:false ;
-    return this.isCorrect;
+    that.isCorrect = (that.gameWon) ? true : false;
+    return that.isCorrect;
   };
 
   /**
-  * Get the score given
-  * @return {number} this.score
-  */
+   * Get the score given
+   * @return {number} this.score
+   */
   Hangman.prototype.getScore = function () {
     return this.score;
   };
 
   /**
-  * Get the maximum score
-  * @return {number} word.length
-  */
+   * Get the maximum score
+   * @return {number} word.length
+   */
   Hangman.prototype.getMaxScore = function () {
-    return this.chosenWord.word.length;
+    return this.maxScore;
   };
 
   /**
-  * Get randomized word
-  */
+   * Get randomized word
+   */
   Hangman.prototype.getWord = function () {
+
     const that = this;
-    const wordListObj = this.options.categorySelectionList.filter(function (category) {
+    const wordListObj = that.options.categorySelectionList.filter(function (category) {
       return category.categoryText === that.categoryChosen;
     });
 
     // Define a wordlist containing word and it's hint
-    this.wordList = wordListObj[0].categoryWordList.map(function (obj) {
+    that.wordList = wordListObj[0].categoryWordList.map(function (obj) {
       return ({
         "word": obj.word,
         "hint": obj.hintText
       });
     });
 
-    const randomIndex = Math.floor(Math.random() * this.wordList.length);
-    this.chosenWord = this.wordList[randomIndex];
+    const randomIndex = Math.floor(Math.random() * that.wordList.length);
+    that.chosenWord = that.wordList[randomIndex];
   };
 
   /**
@@ -505,14 +592,19 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.attach = function ($container) {
     const that = this;
     $container.addClass('h5p-hangman').addClass('first-screen');
-
+    const $title = $('<h1 tabindex="0">' + that.options.l10n.hangmanTitle + ' </h1>');
+    const $img = $('<div/>', {
+      'class': 'image-icon image-lost'
+    });
     const $contentWrapper = $('<div/>', {
       'class': 'content-wrapper'
     });
     const $buttonContainer = $('<div />', {
       'class': 'button-container'
     });
-
+    const $selectContainer = $('<div />', {
+      'class': 'select-container'
+    });
     const cFunction = that.startGame.bind(this);
     that.$startGameButton = UI.createButton({
       'title': 'Start the Game',
@@ -521,8 +613,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       click: cFunction
     });
 
-    that.$categorySelect.appendTo($contentWrapper);
-    that.$levelSelect.appendTo($contentWrapper);
+    $img.appendTo($contentWrapper);
+    $title.appendTo($contentWrapper);
+    that.$categorySelect.appendTo($selectContainer);
+    that.$levelSelect.appendTo($selectContainer);
+    $selectContainer.appendTo($contentWrapper);
     that.$startGameButton.appendTo($buttonContainer);
 
     // Get the category chosen
@@ -530,7 +625,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.$categorySelect.on('change', function () {
       that.categoryChosen = this.value;
     });
-
     // Get the selected level
     that.levelChosen = that.$levelSelect.val();
     that.$levelSelect.on('change', function () {
@@ -571,23 +665,15 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
           else if (window.innerWidth > 400 && !that.isInline) {
             that.isInline = true;
           }
-
-
           if (that.canvasSize !== 150 || curMode !== that.isInline) {
             that.canvasSize = 150;
 
-            that.isInline=false;
+            that.isInline = false;
             that.trigger('changeHangmanContainer');
           }
         }
       }
-      else {
-        that.$container.css({
-          'height': window.innerHeight + 'px'
-        });
-      }
     });
-
     that.trigger('resize');
   };
 
