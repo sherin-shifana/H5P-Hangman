@@ -83,7 +83,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     }).appendTo(this.$buttonContainer);
 
     // Hint button
-    if(that.chosenWord.hint) {
+    if (that.chosenWord.hint) {
       this.$hintButton = UI.createButton({
         'html': '<span><i class="fa fa-info-circle" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.hint,
         'class': 'hint-button button',
@@ -116,7 +116,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.attemptsLeft = that.levelChosen;
 
     // Get each alphabet
-    if(this.keys.length>=27){
+    if (this.keys.length>=27 ) {
       this.keys.split(',').forEach(function (c) {
         $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
       });
@@ -126,7 +126,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
         $('<div class="h5p-letter">' + c + '</div>').appendTo(that.$alphabetContainer);
       });
     }
-
 
     // assign chosen word to guesses
     const guesses = that.chosenWord.word;
@@ -169,11 +168,9 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       });
     });
 
-    that.$alphabetContainer.find('.h5p-letter').each(function(c){
-      $(this).keypress(function(event){
+    that.$alphabetContainer.find('.h5p-letter').each(function () {
+      $(this).keypress(function (event) {
         alert( String.fromCharCode(event.which)==$(this).innerText);
-        console.log($(this));
-
       });
 
     });
