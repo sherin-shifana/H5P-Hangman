@@ -9,12 +9,24 @@
     "importance":"high"
   },
   {
-    "label":"Keys",
+    "name":"customKeys",
+    "label":"Customize virtual keyboard.",
+    "type":"boolean",
+    "default":true
+  },
+  {
     "name":"keys",
     "type":"text",
-    "maxLength":100,
-    "description":"Create your own keyboard",
-    "importance":"high"
+    "label":"Custom keys",
+    "widget":"showWhen",
+    "showWhen":{
+      "rules":[
+        {
+          "field":"customKeys",
+          "equals":true
+        }
+      ]
+    }
   },
   {
     "name":"categorySelectionList",
@@ -61,7 +73,7 @@
                 "name":"word",
                 "type":"text",
                 "label":"Enter Word",
-                "maxLength":20,
+                "maxLength":30,
                 "regexp":{
                   "pattern":"^(?!(?:.*[\"!#$%&./:;<=>?@\\[\\]^_`\\{|}~'()\\-*+\\d]|^[,])).*$"
                 },
@@ -70,7 +82,7 @@
               {
                 "label":"Hint Text",
                 "name":"hintText",
-                "maxLength":30,
+                "maxLength":200,
                 "type":"text",
                 "optional":false,
                 "description":"Input the hint here..."
@@ -112,6 +124,20 @@
         "name":"chosenCategory",
         "type":"text",
         "default":"The chosen category is "
+      },
+      {
+        "label":"Guessed word : Display text",
+        "importance":"low",
+        "name":"guessedWord",
+        "type":"text",
+        "default":"Guessed Word"
+      },
+      {
+        "label":"Number of attempts text",
+        "importance":"low",
+        "name":"attemptsText",
+        "type":"text",
+        "default":"attempts"
       },
       {
         "label":"Attempts Left text",

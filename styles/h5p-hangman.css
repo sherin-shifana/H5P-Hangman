@@ -9,7 +9,6 @@
   overflow: auto !important;
   text-align: center;
   color: black;
-  border: 1px solid #eeeeee;
 }
 
 .h5p-hangman .content-wrapper {
@@ -54,7 +53,6 @@
 .h5p-hangman .select-container{
   display: inline-block;
 }
-
 
 
 .h5p-hangman .content-wrapper select {
@@ -128,7 +126,10 @@
   border: 1px solid #008ae6;
 }
 
-
+.h5p-hangman .guess-container {
+  padding-top: 1em;
+  height: 4em;
+}
 .h5p-hangman .guess-container .guess {
   display: inline-block;
   margin: .1em;
@@ -137,7 +138,9 @@
   border-bottom: 2px solid #006bb3;
   min-width: 1em;
   vertical-align: bottom;
-
+  box-sizing: border-box;
+  min-height: 1.2em;
+  padding-top:.2em;
 }
 
 .h5p-hangman .guess-container .guess-whitespace {
@@ -200,6 +203,10 @@
   text-decoration-color: #006bb3;
 }
 
+.h5p-hangman .right-container .footer-button-container{
+  padding-bottom: 2em;
+}
+
 .h5p-hangman .h5p-hangman-pop {
   display: none;
   background: #fff;
@@ -219,13 +226,15 @@
 }
 
 .h5p-hangman .h5p-hangman-pop .h5p-hangman-hint {
+  vertical-align: middle;
   outline: none;
   text-align: center;
-  padding-top: 4em;
   color: steelblue;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-transform: capitalize;
+  word-wrap: break-word;
+  padding: 2em;
 }
 
 .h5p-hangman .h5p-hangman-pop .h5p-hangman-close {
@@ -246,10 +255,16 @@
 .game-win-page>.result-div {
 
   margin-bottom: 1em;
-  padding: .5em;
+  padding: .5em .5em 2em .5em;
   display: inline-block;
   margin: 0 auto;
   text-align: center;
+}
+
+.game-over-page>.result-div>.result-content-div,
+.game-win-page>.result-div>.result-content-div {
+  line-height: 2.2;
+  margin-bottom: 2em;
 }
 
 .game-win-page p,
@@ -317,6 +332,10 @@
     height: 3em;
     line-height: 3;
     font-size: 1em;
+  }
+
+  .h5p-hangman .h5p-hangman-pop .h5p-hangman-hint  {
+    /* font-size: 14px !important; */
   }
 }
 

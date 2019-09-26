@@ -50,11 +50,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     });
 
     that.$levelSelect = $('<select class="levels">' +
-      '<option value="10" selected class="options-select">10 attempts</option>' +
-      '<option value="9" class="options-select">9 attempts</option>' +
-      '<option value="8" class="options-select">8 attempts</option>' +
-      '<option value="7" class="options-select">7 attempts</option>' +
-      '<option value="6" class="options-select">6 attempts</option>' +
+      '<option value="10" selected class="options-select">10 '+that.options.l10n.attemptsText+'</option>' +
+      '<option value="9" class="options-select">9 '+that.options.l10n.attemptsText+'</option>' +
+      '<option value="8" class="options-select">8 '+that.options.l10n.attemptsText+'</option>' +
+      '<option value="7" class="options-select">7 '+that.options.l10n.attemptsText+'</option>' +
+      '<option value="6" class="options-select">6 '+that.options.l10n.attemptsText+'</option>' +
       '</select>');
   };
 
@@ -76,11 +76,11 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     that.$taskDescription = $('<div class="task-description">' + that.options.taskDescription + '</div>');
     that.$alphabetContainer = $('<div class="alphabet-container"></div>');
-    that.$selectedCategory = $('<p>'+that.options.l10n.chosenCategory+':<span>' + that.categoryChosen + '</span></p>');
+    that.$selectedCategory = $('<p>'+that.options.l10n.chosenCategory+'&nbsp;<span>' + that.categoryChosen + '</span></p>');
     that.$guessContainer = $('<div class="guess-container"></div>');
 
     that.$hangmanContainer = $('<div class="hangman-container"></div>');
-    that.$buttonContainer = $('<div class="button-container"></div>');
+    that.$footerButtonContainer = $('<div class="footer-button-container"></div>');
 
     that.$leftContainer = $('<div class="left-container"></div>');
     that.$rightContainer = $('<div class="right-container"></div>');
@@ -96,7 +96,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       'class': 'retry-button button',
       'html': '<span><i class="fa fa-undo" aria-hidden="true"></i></span>&nbsp;' + this.options.l10n.playAgain,
       click: callBackFunction
-    }).appendTo(that.$buttonContainer);
+    }).appendTo(that.$footerButtonContainer);
 
     // Hint button
     if (that.chosenWord.hint) {
@@ -106,7 +106,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
         click: function () {
           that.popup.show(that.chosenWord.hint);
         }
-      }).appendTo(that.$buttonContainer);
+      }).appendTo(that.$footerButtonContainer);
     }
 
   };
@@ -118,7 +118,8 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     const that = this;
     that.isGameStarted = true;
     that.alphabets = 'A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z';
-    that.keys = that.options.keys;
+    that.customKeys = that.options.customKeys;
+    that.keys = this.options.keys.replace(/[\s,.:'"!@#$%^&*()-_=+\\|]/g, '');
     that.score = 0;
     that.clickedLetters = [];
 
@@ -132,10 +133,17 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     that.attemptsLeft = that.levelChosen;
 
     // Get each alphabet
-    this.keys = this.options.keys.replace(/[\s,.:'"!@#$%^&*()-_=+\\|]/g, '');
-    that.alphabets.split(',').forEach(function (c) {
-      $('<div class="h5p-letter" id="letter_' + c + '">' + c + '</div>').appendTo(that.$alphabetContainer);
-    });
+    if (that.customKeys) {
+      this.keys.split('').forEach(function (c) {
+        $('<div class="h5p-letter" id="letter_'+c+'">' + c + '</div>').appendTo(that.$alphabetContainer);
+      });
+    }
+    else {
+      this.alphabets.split(',').forEach(function (c) {
+        $('<div class="h5p-letter" id="letter_'+c+'">' + c + '</div>').appendTo(that.$alphabetContainer);
+      });
+    }
+
     // assign chosen word to guesses
     const guesses = that.chosenWord.word;
     for (let i = 0; i < guesses.length; i++) {
@@ -155,7 +163,7 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
 
     that.hangman.appendTo(that.$hangmanContainer, true);
     that.$hangmanContainer.appendTo(that.$rightContainer);
-    that.$buttonContainer.appendTo(that.$rightContainer);
+    that.$footerButtonContainer.appendTo(that.$rightContainer);
 
     that.$leftContainer.appendTo(that.$gameContainer);
     that.$rightContainer.appendTo(that.$gameContainer);
@@ -189,23 +197,27 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
     $current.attr("tabindex", 0);
 
     // Clicking an alphabet or guessing a letter
+    $(window).keypress(function (event) {
+      let inp = String.fromCharCode(event.keyCode);
+      inp = inp.toUpperCase();
+      if (/[a-zA-Z]/.test(inp)) {
+        // find the element and if it is not already clicked, triggers
+        const $element = that.$alphabetContainer.find('#letter_' + inp);
+        if ($element && !$element.hasClass('h5p-letter-after-click')) {
+          that.afterLetterClick($element);
+        }
+      }
+    });
+
     that.$alphabetContainer.find('.h5p-letter').click(function () {
       that.afterLetterClick($(this));
     })
       .keydown(function (event) {
         //check if it is a character
-        let inp = String.fromCharCode(event.keyCode);
-        if (/[a-zA-Z]/.test(inp)) {
-          //find the element and if it is not already clicked, triggers
-          const $element = that.$alphabetContainer.find('#letter_' + inp);
-          if ($element && !$element.hasClass('h5p-letter-after-click')) {
-            that.afterLetterClick($element);
-          }
-        }
+
         switch (event.which) {
           case 13: // Enter
           case 32: // Space
-
             if (!($(this).hasClass('h5p-letter-after-click'))) {
 
               that.afterLetterClick($(this));
@@ -350,16 +362,18 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
       that.$container.removeClass("second-screen").addClass("game-over-page");
     }
     that.createFinalScreenDomElements();
-    that.$totalTimeSpent.appendTo(that.$resultDiv);
-    that.$attemptsLeft.appendTo(that.$resultDiv);
 
-    if (that.options.behaviour.showCorrectGuesses) {
+    that.$guessedWord.appendTo(that.$resultContentDiv);
+    that.$totalTimeSpent.appendTo(that.$resultContentDiv);
+    that.$attemptsLeft.appendTo(that.$resultContentDiv);
+
+    if (that.options.behaviour) {
       that.$counter.find('.h5p-counter').html(that.score);
-      that.$counter.appendTo(that.$resultDiv);
-      that.$progressBar.appendTo(that.$resultDiv);
+      that.$counter.appendTo(that.$resultContentDiv);
+      that.$progressBar.appendTo(that.$resultContentDiv);
     }
 
-
+    that.$resultContentDiv.appendTo(that.$resultDiv);
     that.$playAgain.appendTo(that.$resultDiv);
     that.$resultDiv.appendTo(that.$container);
 
@@ -480,11 +494,13 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
   Hangman.prototype.createFinalScreenDomElements = function () {
     const that = this;
     that.$resultDiv = $('<div class="result-div"></div>');
-    that.$totalTimeSpent = $('<p class="total-time-spent" tabindex="0">' + that.options.l10n.timeSpent + ':<span>' + that.$status.find('time')[0].innerHTML + '</span></p>');
-    that.$attemptsLeft = $('<p class="total-attempts-made" tabindex="0">' + that.options.l10n.attemptsLeft + '<span>' + that.attemptsLeft + '</span></p>');
+    that.$resultContentDiv = $('<div class="result-content-div"></div>');
+    that.$guessedWord = $('<p class="guessed-word" tabindex="0">' + that.options.l10n.guessedWord + '&nbsp;:&nbsp;<span>' + that.chosenWord.word + '</span></p>');
+    that.$totalTimeSpent = $('<p class="total-time-spent" tabindex="0">' + that.options.l10n.timeSpent + '&nbsp;:&nbsp;<span>' + that.$status.find('time')[0].innerHTML + '</span></p>');
+    that.$attemptsLeft = $('<p class="total-attempts-made" tabindex="0">' + that.options.l10n.attemptsLeft + '&nbsp;:&nbsp;<span>' + that.attemptsLeft + '</span></p>');
 
     // Create progress bar
-    if (that.options.behaviour.showCorrectGuesses) {
+    if (that.options.behaviour) {
 
       const counterText = that.options.l10n.score
         .replace('@total', '<span>' + that.getMaxScore() + '</span>')
@@ -495,7 +511,6 @@ H5P.Hangman = (function ($, UI, EventDispatcher) {
         tabindex: 0,
         html: '<div role="term"><span role="definition">' + counterText + '</span></div>'
       });
-
     }
     that.$progressBar = UI.createScoreBar(that.maxScore);
     // Set score to the count of correct letter clicked
